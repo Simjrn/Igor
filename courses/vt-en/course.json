@@ -55,7 +55,7 @@
             {"type":"gap","prompt":"Complete the sentence: ‘Good night.’","sentence":"üvvä ___.","answer":"üüte"},
             {"type":"write","prompt":"Translate ‘hi’ into Votic.","answer":"tere","accepted":["tere"]},
             {"type":"write","prompt":"Translate ‘Good afternoon, are you Igor?’ into Votic.","answer":"üvvä päivää, õõdko siä Igor?","accepted":["üvvä päivää, õõdko siä Igor?"]},
-            {"type":"write","prompt":"Translate ‘Goof night, I am Igor’ into Spanish.","answer":"üvvä üüte, miä õõn Igor","accepted":["üvvä üüte, miä õõn Igor"]},
+            {"type":"write","prompt":"Translate ‘Goof night, I am Igor’ into Spanish.","answer":"üvvä üüte, miä õõn Igor","accepted":["üvvä üüte, miä õõn Igor"]}
           ]
         }
       ]
