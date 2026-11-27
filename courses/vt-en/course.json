@@ -28,6 +28,23 @@
             {"type":"match","prompt":"Match the Votic starter phrase with its meaning.","pairs":[{"left":"tere","right":"hi / hello"},{"left":"miä õõn","right":"I am"},{"left":"siä õõd","right":"you are"},{"left":"üvvä omnikkoa","right":"good morning"},{"left":"üvvä päivää","right":"good afternoon"},{"left":"üvvä ohtõgoa","right":"good evening"},{"left":"üvvä üüte","right":"good night"},{"left":"õõdko siä?","right":"are you?"}]}
 
           ]
+        }, {
+          "id": "listen_hello",
+          "title": "Listening practise",
+          "difficulty": "Easy",
+          "description": "Try the Votic starter vocabulary.",
+          "questions": [
+            {"type":"listen","prompt":"Listen and choose the spoken word/phrase.","audio_text":"üvvä päivää","options":["üvvä päivää","üvvä omnikkoa","üvvä ohtõgoa"],"answer":"üvvä päivää"},
+            {"type":"listen","prompt":"Listen and choose the spoken word/phrase.","audio_text":"miä õõn","options":["miä õõn","siä õõd","õõdko siä?"],"answer":"miä õõn"},
+            {"type":"listen","prompt":"Listen and choose the spoken word/phrase.","audio_text":"üvvä omnikkoa","options":["üvvä üüte","üvvä päivää","üvvä omnikkoa"],"answer":"üvvä omnikkoa"},
+            {"type":"listen","prompt":"Listen and choose the spoken word/phrase.","audio_text":"tere","options":["miä õõn","tere","siä õõd"],"answer":"tere"},
+            {"type":"listen","prompt":"Listen and choose the spoken word/phrase.","audio_text":"üvvä üüte","options":["üvvä üüte","tere","õõdko siä?"],"answer":"üvvä üüte"},
+            {"type":"listen","prompt":"Listen and choose the spoken word/phrase.","audio_text":"siä õõd","options":["üvvä päivää","siä õõd","miä õõn"],"answer":"siä õõd"},
+            {"type":"listen","prompt":"Listen and choose the spoken word/phrase.","audio_text":"üvvä ohtõgoa","options":["üvvä ohtõgoa","tere","õõdko siä?"],"answer":"üvvä ohtõgoa"},
+            {"type":"listen","prompt":"Listen and choose the spoken word/phrase.","audio_text":"õõdko siä?","options":["üvvä omnikkoa","miä õõn","õõdko siä?"],"answer":"õõdko siä?"}
+
+
+          ]
         }
       ]
     }
