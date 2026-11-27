@@ -18,8 +18,8 @@ COURSES_DIR = ROOT / "courses"
 DB_PATH = ROOT / ".igor_progress.db"
 AUDIO_EXTENSIONS = (".mp3", ".wav", ".ogg", ".m4a", ".webm")
 TEXT = {
-    "en": {"tagline":"Small steps. Strong shell.","learn":"Learn","log_in":"Log in","sign_up":"Create account","username":"Username","password":"Password","logout":"Log out","welcome":"Welcome back","choose_course":"Choose your course","lesson":"Lesson","start":"Start lesson","continue":"Continue","xp":"XP","streak":"day streak","lessons_done":"lessons completed","check":"Check answer","next":"Continue","correct":"Nice work!","incorrect":"Not quite — try again.","finish":"Lesson complete!","finish_body":"You kept moving. Every little step counts.","back":"Back to lessons","no_courses":"No courses are available yet.","audio_missing":"Audio isn't available for this question yet.","pick":"Choose an answer","write_here":"Type your translation","wordbank_hint":"Tap words to build your answer.","empty":"Choose an option","already":"That username is already taken.","bad_login":"Username or password is incorrect.","create_first":"Create an account to save your XP, streak, and lesson progress.","language":"Interface language","question_of":"Question","correct_answer":"A good answer:","no_lessons":"This course has no lessons yet."},
-    "es": {"tagline":"Pasos pequeños. Caparazón fuerte.","learn":"Aprender","log_in":"Iniciar sesión","sign_up":"Crear cuenta","username":"Usuario","password":"Contraseña","logout":"Cerrar sesión","welcome":"¡Qué bueno verte!","choose_course":"Elige tu curso","lesson":"Lección","start":"Empezar lección","continue":"Continuar","xp":"XP","streak":"días seguidos","lessons_done":"lecciones completadas","check":"Comprobar","next":"Continuar","correct":"¡Muy bien!","incorrect":"Casi — inténtalo otra vez.","finish":"¡Lección completada!","finish_body":"Seguiste avanzando. Cada paso cuenta.","back":"Volver a las lecciones","no_courses":"Todavía no hay cursos disponibles.","audio_missing":"El audio aún no está disponible para esta pregunta.","pick":"Elige una respuesta","write_here":"Escribe tu traducción","wordbank_hint":"Pulsa palabras para formar tu respuesta.","empty":"Elige una opción","already":"Ese usuario ya existe.","bad_login":"El usuario o la contraseña no son correctos.","create_first":"Crea una cuenta para guardar tus XP, racha y progreso.","language":"Idioma de la interfaz","question_of":"Pregunta","correct_answer":"Una respuesta válida:","no_lessons":"Este curso todavía no tiene lecciones."},
+    "en": {"tagline":"Small steps. Strong shell.","learn":"Learn","log_in":"Log in","sign_up":"Create account","username":"Username","password":"Password","logout":"Log out","welcome":"Welcome back","choose_course":"Choose your course","lesson":"Lesson","start":"Start lesson","continue":"Continue","xp":"XP","streak":"day streak","lessons_done":"lessons completed","check":"Check answer","next":"Continue","correct":"Nice work!","incorrect":"Not quite — try again.","finish":"Lesson complete!","finish_body":"You kept moving. Every little step counts.","back":"Back to lessons","no_courses":"No courses are available yet.","audio_missing":"Audio isn't available for this question yet.","pick":"Choose an answer","write_here":"Type your translation","wordbank_hint":"Tap words to build your answer.","empty":"Choose an option","already":"That username is already taken.","bad_login":"Username or password is incorrect.","create_first":"Create an account to save your XP, streak, and lesson progress.","language":"Interface language","question_of":"Question","correct_answer":"A good answer:","no_lessons":"This course has no lessons yet.","unit":"UNIT","locked":"Complete the lessons above to unlock this one.","replay_sound":"Play sound again","correct_sound":"Correct answer sound","incorrect_sound":"Try-again sound"},
+    "es": {"tagline":"Pasos pequeños. Caparazón fuerte.","learn":"Aprender","log_in":"Iniciar sesión","sign_up":"Crear cuenta","username":"Usuario","password":"Contraseña","logout":"Cerrar sesión","welcome":"¡Qué bueno verte!","choose_course":"Elige tu curso","lesson":"Lección","start":"Empezar lección","continue":"Continuar","xp":"XP","streak":"días seguidos","lessons_done":"lecciones completadas","check":"Comprobar","next":"Continuar","correct":"¡Muy bien!","incorrect":"Casi — inténtalo otra vez.","finish":"¡Lección completada!","finish_body":"Seguiste avanzando. Cada paso cuenta.","back":"Volver a las lecciones","no_courses":"Todavía no hay cursos disponibles.","audio_missing":"El audio aún no está disponible para esta pregunta.","pick":"Elige una respuesta","write_here":"Escribe tu traducción","wordbank_hint":"Pulsa palabras para formar tu respuesta.","empty":"Elige una opción","already":"Ese usuario ya existe.","bad_login":"El usuario o la contraseña no son correctos.","create_first":"Crea una cuenta para guardar tus XP, racha y progreso.","language":"Idioma de la interfaz","question_of":"Pregunta","correct_answer":"Una respuesta válida:","no_lessons":"Este curso todavía no tiene lecciones.","unit":"UNIDAD","locked":"Completa las lecciones anteriores para desbloquear esta.","replay_sound":"Repetir sonido","correct_sound":"Sonido de respuesta correcta","incorrect_sound":"Sonido de inténtalo de nuevo"},
 }
 
 st.set_page_config(page_title="Igor · Language learning", page_icon="🐢", layout="centered")
@@ -35,6 +35,7 @@ html, body, [class*="css"] { font-family:'Nunito',sans-serif; }
 .igor-sub { color:#658173; font-weight:700; font-size:.88rem; margin-top:-6px; }
 .stats { padding:12px 16px; border-radius:15px; background:#edf6ef; color:#24583e; font-weight:800; }
 .question-label { color:var(--igor); font-size:.82rem; font-weight:900; letter-spacing:.08em; text-transform:uppercase; }
+.sound-replay { padding:6px 12px; border:1px solid #d5e6da; border-radius:10px; background:#f5faf6; color:#24583e; font:700 13px Nunito,sans-serif; cursor:pointer; }
 div.stButton > button[kind="primary"] { background:var(--igor); border-color:var(--igor); border-radius:13px; font-weight:900; min-height:2.8rem; }
 div.stButton > button { border-radius:12px; }
 </style>
@@ -52,21 +53,14 @@ def init_db() -> None:
     with db() as conn:
         conn.executescript("""
         CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY,
-            username TEXT UNIQUE NOT NULL COLLATE NOCASE,
-            salt BLOB NOT NULL,
-            password_hash BLOB NOT NULL,
-            ui_language TEXT NOT NULL DEFAULT 'en',
-            xp INTEGER NOT NULL DEFAULT 0,
-            streak INTEGER NOT NULL DEFAULT 0,
-            last_active TEXT,
-            created_at TEXT NOT NULL
+            id INTEGER PRIMARY KEY, username TEXT UNIQUE NOT NULL COLLATE NOCASE,
+            salt BLOB NOT NULL, password_hash BLOB NOT NULL,
+            ui_language TEXT NOT NULL DEFAULT 'en', xp INTEGER NOT NULL DEFAULT 0,
+            streak INTEGER NOT NULL DEFAULT 0, last_active TEXT, created_at TEXT NOT NULL
         );
         CREATE TABLE IF NOT EXISTS completed_lessons (
             user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-            course_id TEXT NOT NULL,
-            lesson_id TEXT NOT NULL,
-            completed_at TEXT NOT NULL,
+            course_id TEXT NOT NULL, lesson_id TEXT NOT NULL, completed_at TEXT NOT NULL,
             PRIMARY KEY(user_id, course_id, lesson_id)
         );
         """)
@@ -111,7 +105,10 @@ def courses() -> list[dict[str, Any]]:
             data = json.loads(path.read_text(encoding="utf-8"))
             data["_path"] = path.parent
             data["id"] = data.get("id", path.parent.name)
-            if isinstance(data.get("lessons"), list):
+            # Older course files used a flat lessons list; keep them playable as one unit.
+            if "units" not in data and isinstance(data.get("lessons"), list):
+                data["units"] = [{"id":"course-lessons", "title":data.get("title", "Course lessons"), "topic":data.get("description", ""), "lessons":data["lessons"]}]
+            if isinstance(data.get("units"), list):
                 found.append(data)
         except (OSError, json.JSONDecodeError):
             continue
@@ -150,6 +147,41 @@ def audio_widget(course: dict, question: dict, t: dict) -> None:
         except OSError:
             pass
     st.caption(t["audio_missing"])
+
+
+def feedback_sound(correct: bool, key: str, t: dict) -> None:
+    """Play a tiny synthesized sound; replay button covers browsers that block autoplay."""
+    sound_id = re.sub(r"[^a-zA-Z0-9_-]", "", key)
+    label = t["correct_sound"] if correct else t["incorrect_sound"]
+    frequencies = "[660,880]" if correct else "[220,165]"
+    wave = "sine" if correct else "triangle"
+    html = f'''<button class="sound-replay" id="sound-{sound_id}" aria-label="{label}">🔊 {t["replay_sound"]}</button>
+    <script>
+    (() => {{
+      const button = document.getElementById("sound-{sound_id}");
+      const play = () => {{
+        try {{
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          const ctx = new AudioCtx();
+          const notes = {frequencies};
+          notes.forEach((hz, i) => {{
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = "{wave}"; osc.frequency.value = hz;
+            gain.gain.setValueAtTime(0.0001, ctx.currentTime + i * 0.13);
+            gain.gain.exponentialRampToValueAtTime(0.12, ctx.currentTime + i * 0.13 + 0.02);
+            gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + i * 0.13 + 0.19);
+            osc.connect(gain); gain.connect(ctx.destination);
+            osc.start(ctx.currentTime + i * 0.13); osc.stop(ctx.currentTime + i * 0.13 + 0.2);
+          }});
+            setTimeout(() => ctx.close(), 550);
+        }} catch (e) {{ /* Sound is a non-essential enhancement. */ }}
+      }};
+      if (button) button.addEventListener("click", play);
+      play();
+    }})();
+    </script>'''
+    st.html(html, unsafe_allow_javascript=True)
 
 
 def completed_ids(user_id: int, course_id: str) -> set[str]:
@@ -210,7 +242,8 @@ def render_auth() -> None:
             if user:
                 st.session_state.user = user
                 st.rerun()
-            st.error(t["bad_login"])
+            else:
+                st.error(t["bad_login"])
 
 
 def render_question(course: dict, question: dict, number: int, total: int, t: dict, user_id: int) -> None:
@@ -270,11 +303,19 @@ def render_question(course: dict, question: dict, number: int, total: int, t: di
     result = st.session_state.get(checked_key)
     if result is True:
         st.success(t["correct"] + "  +5 XP")
+        sound_key = qkey + "_correct"
+        if st.session_state.get("last_sound") != sound_key:
+            st.session_state.last_sound = sound_key
+            feedback_sound(True, sound_key, t)
         if st.button(t["next"], key="next_" + qkey, type="primary", use_container_width=True):
             st.session_state.question_index += 1
             st.rerun()
     elif result is False:
         st.error(t["incorrect"])
+        sound_key = qkey + "_incorrect"
+        if st.session_state.get("last_sound") != sound_key:
+            st.session_state.last_sound = sound_key
+            feedback_sound(False, sound_key, t)
         if qtype in ("write", "word_bank", "gap"):
             st.caption(f"{t['correct_answer']} {question.get('answer', '')}")
         if st.button(t["continue"], key="retry_" + qkey, use_container_width=True):
@@ -309,7 +350,7 @@ def render_app() -> None:
     if "active_lesson" in st.session_state:
         active = st.session_state.active_lesson
         course = next((item for item in all_courses if item["id"] == active["course_id"]), None)
-        lesson = next((item for item in course["lessons"] if item.get("id") == active["lesson_id"]), None) if course else None
+        lesson = next((lesson for unit in course["units"] for lesson in unit.get("lessons", []) if lesson.get("id") == active["lesson_id"]), None) if course else None
         if course and lesson:
             questions = lesson.get("questions", [])
             idx = st.session_state.get("question_index", 0)
@@ -320,7 +361,7 @@ def render_app() -> None:
                 st.write(t["finish_body"])
                 st.markdown(f"### 🔥 {get_user(user['id'])['streak']} {t['streak']}")
                 if st.button(t["back"], type="primary"):
-                    for key in ("active_lesson", "question_index", "lesson_token"):
+                    for key in ("active_lesson", "question_index", "lesson_token", "last_sound"):
                         st.session_state.pop(key, None)
                     st.rerun()
                 return
@@ -337,29 +378,47 @@ def render_app() -> None:
     options = [item for item in all_courses if item.get("ui_language", "en") == ui] or all_courses
     labels = [f"{item.get('title', item['id'])} · {item.get('from', '?').upper()} → {item.get('to', '?').upper()}" for item in options]
     course = options[st.selectbox(t["choose_course"], range(len(options)), format_func=lambda i: labels[i])]
-    lessons = course["lessons"]
-    done = completed_ids(user["id"], course["id"])
     st.caption(course.get("description", ""))
-    if not lessons:
+    done = completed_ids(user["id"], course["id"])
+    units = course.get("units", [])
+    if not units:
         st.info(t["no_lessons"])
         return
-    st.markdown(f"### {t['learn']} · {course.get('title', course['id'])}")
-    for lesson in lessons:
-        lesson_id = str(lesson.get("id", "lesson"))
-        is_done = lesson_id in done
-        with st.container(border=True):
-            left, right = st.columns([4, 1])
-            with left:
-                st.markdown(f"**{t['lesson']} {lesson.get('title', lesson_id)}**" + (" ✅" if is_done else ""))
-                st.caption(lesson.get("description", f"{len(lesson.get('questions', []))} questions"))
-            with right:
-                label = t["continue"] if is_done else t["start"]
-                if st.button(label, key=f"open_{course['id']}_{lesson_id}", type="primary", use_container_width=True):
-                    st.session_state.active_lesson = {"course_id":course["id"], "lesson_id":lesson_id}
-                    st.session_state.question_index = 0
-                    st.session_state.lesson_token = secrets.token_hex(4)
-                    st.rerun()
-    st.caption(f"{len(done)} {t['lessons_done']}")
+
+    flat_lessons = [lesson for unit in units for lesson in unit.get("lessons", [])]
+    previous_done = True
+    lesson_count = 0
+    for unit_index, unit in enumerate(units):
+        # A visible divider and generous spacing make every topic feel like a new section.
+        st.markdown("<div style='height:20px'></div><hr style='border:0;border-top:2px solid #dcebe0;margin:20px 0 24px'>", unsafe_allow_html=True)
+        st.markdown(f"### 🐢 {t['unit']} {unit_index + 1} · {unit.get('title', 'Unit')}")
+        if unit.get("topic"):
+            st.caption(unit["topic"])
+        lessons = unit.get("lessons", [])
+        for lesson in lessons:
+            lesson_id = str(lesson.get("id", "lesson"))
+            is_done = lesson_id in done
+            can_start = previous_done
+            lesson_count += 1
+            with st.container(border=True):
+                left, right = st.columns([4, 1])
+                with left:
+                    st.markdown(f"**{t['lesson']} {lesson.get('title', lesson_id)}**" + (" ✅" if is_done else ""))
+                    detail = lesson.get("description", f"{len(lesson.get('questions', []))} questions")
+                    difficulty = lesson.get("difficulty")
+                    st.caption(f"{detail}" + (f" · {difficulty}" if difficulty else ""))
+                    if not can_start:
+                        st.caption("🔒 " + t["locked"])
+                with right:
+                    label = t["continue"] if is_done else t["start"]
+                    if st.button(label, key=f"open_{course['id']}_{lesson_id}", type="primary", use_container_width=True, disabled=not can_start):
+                        st.session_state.active_lesson = {"course_id":course["id"], "lesson_id":lesson_id}
+                        st.session_state.question_index = 0
+                        st.session_state.lesson_token = secrets.token_hex(4)
+                        st.session_state.pop("last_sound", None)
+                        st.rerun()
+            previous_done = previous_done and is_done
+    st.caption(f"{len(done)} / {lesson_count} {t['lessons_done']}")
 
 
 init_db()
