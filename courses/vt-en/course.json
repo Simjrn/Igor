@@ -10,7 +10,7 @@
       "id": "greetings",
       "title": "Greetings & first words",
       "topic": "Difficulty 1 · Begin with the starter words included in this course.",
-      "notes": "## Votic basics\n\nVotic uses the Latin alphabet with additional **accents**. \n\n ## Vocabulary \n\n| Votic | English |\n| --- | --- |\n| tere | hi |\n| miä õõn | I am |\n| siä õõd | you are | \n | -ko | questions marker | \n | üvvä omnikkoa | good morning | \n | üvvä päivää | good afternoon | \n | üvvä ohtõgoa | good evening | \n | üvva üüte | good night | \n\n\n ## Verb conjugation \nAs you can see from the words for _I am_, and _you are_, we use the stem **õõ** to mean to be. The infinitive (simplest form) of the verb is actually **õlla**, however verb stems often differ greatly from their infinitive in Votic. You might also have noticed, that the endings attached onto **õõ-** change depending on who is doing the action. For _miä_(**I**), this is _-n_, and for _siä_(**you**), this is _-d_. \n\n\n ## Asking questions  \n To ask yes/no questions in Votic, attach the ending _-ko_ onto the verb. For example _siä õõd_ -> _õõdko siä?_",
+      "notes": "## Votic basics\n\nVotic uses the Latin alphabet with additional accents.\n\n| Votic | English |\n| --- | --- |\n| tere | hi |\n| miä õõn | I am |\n| siä õõd | you are |\n| üvvä päivää | good afternoon |\n| üvvä omnikkoa | good morning |\n| üvvä ohtõgoa | good evening |\n| üvvä üüte | good night |",
       "lessons": [
         {
           "id": "hello",
@@ -19,31 +19,28 @@
           "description": "Try the Votic starter vocabulary.",
           "questions": [
             {"type":"multiple_choice","prompt":"Which Votic word translates to ‘hi / hello’?","options":["tere","miä õõn","English"],"answer":"tere"},
-            {"type":"multiple_choice","prompt":"Which Votic phrase translates to ‘good night'","options":["tere","miä õõn","üvvä üüte"],"answer":"üvvä üüte"},
+            {"type":"multiple_choice","prompt":"Which Votic phrase translates to ‘good night’?","options":["tere","miä õõn","üvvä üüte"],"answer":"üvvä üüte"},
             {"type":"word_bank","prompt":"Build the phrase for ‘good morning’. Use the word tiles in order.","words":["üvvä","õõn","tere","omnikkoa"],"answer":"üvvä omnikkoa"},
             {"type":"match","prompt":"Match the Votic starter phrase with its meaning.","pairs":[{"left":"tere","right":"hi / hello"},{"left":"miä õõn","right":"I am"}]},
-            {"type":"multiple_choice","prompt":"Which Votic phrase translates to ‘you are'","options":["tere","siä õõd","miä õõn"],"answer":"siä õõd"},
-            {"type":"multiple_choice","prompt":"Which Votic phrase translates to ‘good afternoon'","options":["üvvä päivää","miä õõn","üvvä üüte"],"answer":"üvvä päivää"},
-            {"type":"multiple_choice","prompt":"Which Votic word translates to ‘good evening'","options":["üvvä omnikkoa","üvvä ohtõgoa","üvvä päivää"],"answer":"üvvä ohtõgoa"},
-            {"type":"match","prompt":"Match the Votic starter phrase with its meaning.","pairs":[{"left":"tere","right":"hi / hello"},{"left":"miä õõn","right":"I am"},{"left":"siä õõd","right":"you are"},{"left":"üvvä omnikkoa","right":"good morning"},{"left":"üvvä päivää","right":"good afternoon"},{"left":"üvvä ohtõgoa","right":"good evening"},{"left":"üvvä üüte","right":"good night"},{"left":"õõdko siä?","right":"are you?"}]}
-
+            {"type":"multiple_choice","prompt":"Which Votic phrase translates to ‘you are’?","options":["tere","siä õõd","miä õõn"],"answer":"siä õõd"},
+            {"type":"multiple_choice","prompt":"Which Votic phrase translates to ‘good afternoon’?","options":["üvvä päivää","miä õõn","üvvä üüte"],"answer":"üvvä päivää"},
+            {"type":"multiple_choice","prompt":"Which Votic phrase translates to ‘good evening’?","options":["üvvä omnikkoa","üvvä ohtõgoa","üvvä päivää"],"answer":"üvvä ohtõgoa"}
           ]
-        }, {
-          "id": "listen_hello",
-          "title": "Listening practise",
+        },
+        {
+          "id": "listen-hello",
+          "title": "Listening practice",
           "difficulty": "Easy",
-          "description": "Try the Votic starter vocabulary.",
+          "description": "Listen to the Votic starter vocabulary.",
           "questions": [
-            {"type":"listen","prompt":"Listen and choose the spoken word/phrase.","audio_text":"üvvä päivää","options":["üvvä päivää","üvvä omnikkoa","üvvä ohtõgoa"],"answer":"üvvä päivää"},
-            {"type":"listen","prompt":"Listen and choose the spoken word/phrase.","audio_text":"miä õõn","options":["miä õõn","siä õõd","õõdko siä?"],"answer":"miä õõn"},
-            {"type":"listen","prompt":"Listen and choose the spoken word/phrase.","audio_text":"üvvä omnikkoa","options":["üvvä üüte","üvvä päivää","üvvä omnikkoa"],"answer":"üvvä omnikkoa"},
-            {"type":"listen","prompt":"Listen and choose the spoken word/phrase.","audio_text":"tere","options":["miä õõn","tere","siä õõd"],"answer":"tere"},
-            {"type":"listen","prompt":"Listen and choose the spoken word/phrase.","audio_text":"üvvä üüte","options":["üvvä üüte","tere","õõdko siä?"],"answer":"üvvä üüte"},
-            {"type":"listen","prompt":"Listen and choose the spoken word/phrase.","audio_text":"siä õõd","options":["üvvä päivää","siä õõd","miä õõn"],"answer":"siä õõd"},
-            {"type":"listen","prompt":"Listen and choose the spoken word/phrase.","audio_text":"üvvä ohtõgoa","options":["üvvä ohtõgoa","tere","õõdko siä?"],"answer":"üvvä ohtõgoa"},
-            {"type":"listen","prompt":"Listen and choose the spoken word/phrase.","audio_text":"õõdko siä?","options":["üvvä omnikkoa","miä õõn","õõdko siä?"],"answer":"õõdko siä?"}
-
-
+            {"type":"listen","prompt":"Listen and choose the spoken phrase.","audio_text":"üvvä päivää","options":["üvvä päivää","üvvä omnikkoa","üvvä ohtõgoa"],"answer":"üvvä päivää"},
+            {"type":"listen","prompt":"Listen and choose the spoken phrase.","audio_text":"miä õõn","audio":"miä õõn.mp3","options":["miä õõn","siä õõd","õõdko siä?"],"answer":"miä õõn"},
+            {"type":"listen","prompt":"Listen and choose the spoken phrase.","audio_text":"üvvä omnikkoa","options":["üvvä üüte","üvvä päivää","üvvä omnikkoa"],"answer":"üvvä omnikkoa"},
+            {"type":"listen","prompt":"Listen and choose the spoken word.","audio_text":"tere","audio":"tere.mp3","options":["miä õõn","tere","siä õõd"],"answer":"tere"},
+            {"type":"listen","prompt":"Listen and choose the spoken phrase.","audio_text":"üvvä üüte","options":["üvvä üüte","tere","õõdko siä?"],"answer":"üvvä üüte"},
+            {"type":"listen","prompt":"Listen and choose the spoken phrase.","audio_text":"siä õõd","options":["üvvä päivää","siä õõd","miä õõn"],"answer":"siä õõd"},
+            {"type":"listen","prompt":"Listen and choose the spoken phrase.","audio_text":"üvvä ohtõgoa","options":["üvvä ohtõgoa","tere","õõdko siä?"],"answer":"üvvä ohtõgoa"},
+            {"type":"listen","prompt":"Listen and choose the spoken phrase.","audio_text":"õõdko siä?","options":["üvvä omnikkoa","miä õõn","õõdko siä?"],"answer":"õõdko siä?"}
           ]
         }
       ]
