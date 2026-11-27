@@ -4,7 +4,7 @@
   "from": "en",
   "to": "vot",
   "ui_language": "en",
-  "description": "A small starter course for learning about Votic. The sample vocabulary needs review by a fluent Votic speaker.",
+  "description": "The very first gamified course for learning Votic!",
   "units": [
     {
       "id": "greetings",
