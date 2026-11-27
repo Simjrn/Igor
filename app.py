@@ -17,9 +17,10 @@ ROOT = Path(__file__).parent
 COURSES_DIR = ROOT / "courses"
 DB_PATH = ROOT / ".igor_progress.db"
 AUDIO_EXTENSIONS = (".mp3", ".wav", ".ogg", ".m4a", ".webm")
+COURSE_LOAD_ERRORS: list[str] = []
 TEXT = {
-    "en": {"tagline":"Small steps. Strong shell.","learn":"Learn","log_in":"Log in","sign_up":"Create account","username":"Username","password":"Password","logout":"Log out","welcome":"Welcome back","choose_course":"Choose your course","lesson":"Lesson","start":"Start lesson","continue":"Continue","xp":"XP","streak":"day streak","lessons_done":"lessons completed","check":"Check answer","next":"Continue","correct":"Nice work!","incorrect":"Not quite — try again.","finish":"Lesson complete!","finish_body":"You kept moving. Every little step counts.","back":"Back to lessons","no_courses":"No courses are available yet.","audio_missing":"Audio isn't available for this question yet.","pick":"Choose an answer","write_here":"Type your translation","wordbank_hint":"Tap words to build your answer.","empty":"Choose an option","already":"That username is already taken.","bad_login":"Username or password is incorrect.","create_first":"Create an account to save your XP, streak, and lesson progress.","language":"Interface language","question_of":"Question","correct_answer":"A good answer:","no_lessons":"This course has no lessons yet.","unit":"UNIT","locked":"Complete the lessons above to unlock this one.","notes":"📘 Unit notes"},
-    "es": {"tagline":"Pasos pequeños. Caparazón fuerte.","learn":"Aprender","log_in":"Iniciar sesión","sign_up":"Crear cuenta","username":"Usuario","password":"Contraseña","logout":"Cerrar sesión","welcome":"¡Qué bueno verte!","choose_course":"Elige tu curso","lesson":"Lección","start":"Empezar lección","continue":"Continuar","xp":"XP","streak":"días seguidos","lessons_done":"lecciones completadas","check":"Comprobar","next":"Continuar","correct":"¡Muy bien!","incorrect":"Casi — inténtalo otra vez.","finish":"¡Lección completada!","finish_body":"Seguiste avanzando. Cada paso cuenta.","back":"Volver a las lecciones","no_courses":"Todavía no hay cursos disponibles.","audio_missing":"El audio aún no está disponible para esta pregunta.","pick":"Elige una respuesta","write_here":"Escribe tu traducción","wordbank_hint":"Pulsa palabras para formar tu respuesta.","empty":"Elige una opción","already":"Ese usuario ya existe.","bad_login":"El usuario o la contraseña no son correctos.","create_first":"Crea una cuenta para guardar tus XP, racha y progreso.","language":"Idioma de la interfaz","question_of":"Pregunta","correct_answer":"Una respuesta válida:","no_lessons":"Este curso todavía no tiene lecciones.","unit":"UNIDAD","locked":"Completa las lecciones anteriores para desbloquear esta.","notes":"📘 Notas de la unidad"},
+    "en": {"tagline":"Small steps. Strong shell.","learn":"Learn","log_in":"Log in","sign_up":"Create account","username":"Username","password":"Password","logout":"Log out","welcome":"Welcome back","choose_course":"Choose your course","lesson":"Lesson","start":"Start lesson","continue":"Continue","xp":"XP","streak":"day streak","lessons_done":"lessons completed","check":"Check answer","next":"Continue","correct":"Nice work!","incorrect":"Not quite — try again.","finish":"Lesson complete!","finish_body":"You kept moving. Every little step counts.","back":"Back to lessons","no_courses":"No playable courses found. Add a course JSON file under the courses folder.","audio_missing":"Audio isn't available for this question yet.","pick":"Choose an answer","write_here":"Type your translation","wordbank_hint":"Tap words to build your answer.","empty":"Choose an option","already":"That username is already taken.","bad_login":"Username or password is incorrect.","create_first":"Create an account to save your XP, streak, and lesson progress.","language":"Interface language","question_of":"Question","correct_answer":"A good answer:","no_lessons":"This course has no lessons yet.","unit":"UNIT","locked":"Complete the lessons above to unlock this one.","notes":"📘 Unit notes","course_errors":"Some course files could not be loaded"},
+    "es": {"tagline":"Pasos pequeños. Caparazón fuerte.","learn":"Aprender","log_in":"Iniciar sesión","sign_up":"Crear cuenta","username":"Usuario","password":"Contraseña","logout":"Cerrar sesión","welcome":"¡Qué bueno verte!","choose_course":"Elige tu curso","lesson":"Lección","start":"Empezar lección","continue":"Continuar","xp":"XP","streak":"días seguidos","lessons_done":"lecciones completadas","check":"Comprobar","next":"Continuar","correct":"¡Muy bien!","incorrect":"Casi — inténtalo de nuevo.","finish":"¡Lección completada!","finish_body":"Seguiste avanzando. Cada paso cuenta.","back":"Volver a las lecciones","no_courses":"No se encontraron cursos jugables. Añade un archivo JSON en la carpeta courses.","audio_missing":"El audio aún no está disponible para esta pregunta.","pick":"Elige una respuesta","write_here":"Escribe tu traducción","wordbank_hint":"Pulsa palabras para formar tu respuesta.","empty":"Elige una opción","already":"Ese usuario ya existe.","bad_login":"El usuario o la contraseña no son correctos.","create_first":"Crea una cuenta para guardar tus XP, racha y progreso.","language":"Idioma de la interfaz","question_of":"Pregunta","correct_answer":"Una respuesta válida:","no_lessons":"Este curso todavía no tiene lecciones.","unit":"UNIDAD","locked":"Completa las lecciones anteriores para desbloquear esta.","notes":"📘 Notas de la unidad","course_errors":"No se pudieron cargar algunos archivos de curso"},
 }
 
 st.set_page_config(page_title="Igor · Language learning", page_icon="🐢", layout="centered")
@@ -98,18 +99,36 @@ def get_user(user_id: int):
 
 
 def courses() -> list[dict[str, Any]]:
-    found = []
-    for path in sorted(COURSES_DIR.glob("*/course.json")):
+    """Discover valid course.json files recursively, independent of course folder/name/language."""
+    found: list[dict[str, Any]] = []
+    COURSE_LOAD_ERRORS.clear()
+    if not COURSES_DIR.is_dir():
+        COURSE_LOAD_ERRORS.append(f"Missing folder: {COURSES_DIR}")
+        return found
+
+    for path in sorted(COURSES_DIR.rglob("course.json")):
         try:
-            data = json.loads(path.read_text(encoding="utf-8"))
+            data = json.loads(path.read_text(encoding="utf-8-sig"))
+            if not isinstance(data, dict):
+                raise ValueError("top level must be a JSON object")
             data["_path"] = path.parent
-            data["id"] = data.get("id", path.parent.name)
-            if "units" not in data and isinstance(data.get("lessons"), list):
-                data["units"] = [{"id":"course-lessons", "title":data.get("title", "Course lessons"), "topic":data.get("description", ""), "lessons":data["lessons"]}]
-            if isinstance(data.get("units"), list):
-                found.append(data)
-        except (OSError, json.JSONDecodeError):
-            continue
+            # Folder name is a safe fallback; the id in a course file is optional.
+            data["id"] = str(data.get("id") or path.parent.name)
+            if not isinstance(data.get("units"), list):
+                lessons = data.get("lessons", [])
+                if isinstance(lessons, list):
+                    data["units"] = [{"id":"course-lessons", "title":data.get("title", path.parent.name), "topic":data.get("description", ""), "lessons":lessons}]
+                else:
+                    raise ValueError("expected a 'units' or 'lessons' list")
+            # Accept a mixed course where lessons are stored at the root and in units.
+            for i, unit in enumerate(data["units"]):
+                if not isinstance(unit, dict):
+                    raise ValueError(f"unit {i + 1} must be an object")
+                if not isinstance(unit.get("lessons", []), list):
+                    raise ValueError(f"lessons in unit {i + 1} must be a list")
+            found.append(data)
+        except (OSError, json.JSONDecodeError, ValueError) as exc:
+            COURSE_LOAD_ERRORS.append(f"{path.relative_to(COURSES_DIR)}: {exc}")
     return found
 
 
@@ -121,6 +140,8 @@ def normalize(text: Any) -> str:
 
 def audio_path(course: dict, question: dict) -> Path | None:
     folder = course["_path"] / "audio"
+    if not folder.is_dir():
+        folder = course["_path"] / "audios"
     if not folder.is_dir():
         return None
     candidates = [str(question["audio"])] if question.get("audio") else []
@@ -148,31 +169,16 @@ def audio_widget(course: dict, question: dict, t: dict) -> None:
 
 
 def feedback_sound(correct: bool, key: str) -> None:
-    """Autoplay a short synthesized sound after an answer; no replay control is rendered."""
     sound_id = re.sub(r"[^a-zA-Z0-9_-]", "", key)
     frequencies = "[660,880]" if correct else "[220,165]"
     wave = "sine" if correct else "triangle"
-    st.html(f'''<div id="igor-sound-{sound_id}" aria-hidden="true"></div>
-    <script>
-    (() => {{
-      try {{
-        const AudioCtx = window.AudioContext || window.webkitAudioContext;
-        const ctx = new AudioCtx();
-        const notes = {frequencies};
-        notes.forEach((hz, i) => {{
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          osc.type = "{wave}"; osc.frequency.value = hz;
-          gain.gain.setValueAtTime(0.0001, ctx.currentTime + i * 0.13);
-          gain.gain.exponentialRampToValueAtTime(0.12, ctx.currentTime + i * 0.13 + 0.02);
-          gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + i * 0.13 + 0.19);
-          osc.connect(gain); gain.connect(ctx.destination);
-          osc.start(ctx.currentTime + i * 0.13); osc.stop(ctx.currentTime + i * 0.13 + 0.2);
-        }});
-        setTimeout(() => ctx.close(), 550);
-      }} catch (e) {{ /* Audio is an optional browser enhancement. */ }}
-    }})();
-    </script>''', unsafe_allow_javascript=True)
+    st.html(f'''<div id="igor-sound-{sound_id}" aria-hidden="true"></div><script>
+    (() => {{ try {{ const C=window.AudioContext||window.webkitAudioContext; const c=new C();
+      [{frequencies}].forEach((hz,i)=>{{const o=c.createOscillator(),g=c.createGain();o.type="{wave}";o.frequency.value=hz;
+      g.gain.setValueAtTime(.0001,c.currentTime+i*.13);g.gain.exponentialRampToValueAtTime(.12,c.currentTime+i*.13+.02);
+      g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+i*.13+.19);o.connect(g);g.connect(c.destination);
+      o.start(c.currentTime+i*.13);o.stop(c.currentTime+i*.13+.2);}});setTimeout(()=>c.close(),550);
+    }} catch(e) {{}} }})();</script>''', unsafe_allow_javascript=True)
 
 
 def completed_ids(user_id: int, course_id: str) -> set[str]:
@@ -338,6 +344,11 @@ def render_app() -> None:
             st.rerun()
 
     all_courses = courses()
+    if COURSE_LOAD_ERRORS:
+        with st.expander(t["course_errors"]):
+            for error in COURSE_LOAD_ERRORS:
+                st.warning(error)
+
     if "active_lesson" in st.session_state:
         active = st.session_state.active_lesson
         course = next((item for item in all_courses if item["id"] == active["course_id"]), None)
@@ -366,9 +377,11 @@ def render_app() -> None:
     if not all_courses:
         st.info(t["no_courses"])
         return
-    options = [item for item in all_courses if item.get("ui_language", "en") == ui] or all_courses
-    labels = [f"{item.get('title', item['id'])} · {item.get('from', '?').upper()} → {item.get('to', '?').upper()}" for item in options]
-    course = options[st.selectbox(t["choose_course"], range(len(options)), format_func=lambda i: labels[i])]
+
+    # Show every course regardless of the account's interface language. The course
+    # language is descriptive metadata, not a visibility filter.
+    labels = [f"{item.get('title', item['id'])} · {item.get('from', '?').upper()} → {item.get('to', '?').upper()}" for item in all_courses]
+    course = all_courses[st.selectbox(t["choose_course"], range(len(all_courses)), format_func=lambda i: labels[i])]
     st.caption(course.get("description", ""))
     done = completed_ids(user["id"], course["id"])
     units = course.get("units", [])
@@ -385,7 +398,6 @@ def render_app() -> None:
             st.caption(unit["topic"])
         notes = unit.get("notes", "")
         if notes:
-            # Notes are authored as Markdown in the course JSON and revealed on demand.
             with st.expander(t["notes"], expanded=False):
                 st.markdown(notes)
         for lesson in unit.get("lessons", []):
