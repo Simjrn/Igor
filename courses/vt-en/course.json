@@ -2,7 +2,7 @@
   "id": "vt-en",
   "title": "Votic for English speakers",
   "from": "en",
-  "to": "vi",
+  "to": "vot",
   "ui_language": "en",
   "description": "A beginner course in Votic, on of the critically endangered uralic languages of Russia. Learn greetings, introduce yourself, get around.",
   "units": [
@@ -10,7 +10,7 @@
       "id": "greetings",
       "title": "Greetings & first words",
       "topic": "Difficulty 1 · Start with useful greetings and polite expressions.",
-      "notes": "## Votic basics\n\nVotic uses the Latin alphabet with additional **accents**. ##Vocabulary \n\n| Votic | English |\n| --- | --- |\n| tere | hi |\n| miä õõn | I am |\n| siä õõd | you are | \n | -ko | questions marker | \n | üvva omnikkoa | good morning | \n | üvva päivää | good afternoon | \n | üvva ohtõgoa | good night | \n\n\n ##Verb conjugation \nAs you can see from the words for 'I am', and 'you are', we use the stem 'õõ' to mean 'to be'. The infinitive (simplest form) of the verb is actually 'õlla', however verb stems often differ greatly from their infinitive in Votic. You might also have noticed, that the endings on 'õõ-' change depending on who is doing the action. For 'miä"(I), this is '-n', and for 'siä'(you), this is '-d'. \n\n\n ##Asking questions  \n To ask yes/no questions in Votic, put the ending '-ko' after the verb. For example: 'siä õõd' -> 'õõdko siä?'.,
+      "notes": "## Votic basics\n\nVotic uses the Latin alphabet with additional **accents**. ##Vocabulary \n\n| Votic | English |\n| --- | --- |\n| tere | hi |\n| miä õõn | I am |\n| siä õõd | you are | \n | -ko | questions marker | \n | üvva omnikkoa | good morning | \n | üvva päivää | good afternoon | \n | üvva ohtõgoa | good night | \n\n\n ##Verb conjugation \nAs you can see from the words for 'I am', and 'you are', we use the stem 'õõ' to mean 'to be'. The infinitive (simplest form) of the verb is actually 'õlla', however verb stems often differ greatly from their infinitive in Votic. You might also have noticed, that the endings on 'õõ-' change depending on who is doing the action. For 'miä"(I), this is '-n', and for 'siä'(you), this is '-d'. \n\n\n ##Asking questions  \n To ask yes/no questions in Votic, put the ending '-ko' after the verb. For example: 'siä õõd' -> 'õõdko siä?'.",
       "lessons": [
         {
           "id": "hello",
