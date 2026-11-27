@@ -1,17 +1,16 @@
-
 {
-  "id": "es-en",
-  "title": "Spanish for English speakers",
+  "id": "vt-en",
+  "title": "Vietnamese for English speakers",
   "from": "en",
-  "to": "es",
+  "to": "vi",
   "ui_language": "en",
-  "description": "Learn Spanish step by step. Topics introduce useful words first, then build toward longer, more challenging phrases.",
+  "description": "A beginner course in Vietnamese. Learn greetings, introduce yourself, order food, and get around. Tone marks are part of Vietnamese spelling.",
   "units": [
     {
       "id": "greetings",
       "title": "Greetings & first words",
-      "topic": "Difficulty 1 · Start with short greetings and essential words.",
-      "notes": "Hola mean 'hello'",
+      "topic": "Difficulty 1 · Start with useful greetings and polite expressions.",
+      "notes": "## Vietnamese basics\n\nVietnamese uses the Latin alphabet with additional **tone marks**. Keep the marks when writing: `xin chào` means hello.\n\n| Vietnamese | English |\n| --- | --- |\n| xin chào | hello |\n| cảm ơn | thank you |\n| tạm biệt | goodbye |",
       "lessons": [
         {
           "id": "hello",
@@ -19,115 +18,74 @@
           "difficulty": "Easy",
           "description": "Greetings and polite words.",
           "questions": [
-            {"type":"multiple_choice","prompt":"How do you say ‘hello’ in Spanish?","options":["hola","adiós","gracias"],"answer":"hola"},
-            {"type":"write","prompt":"Translate ‘thank you’ into Spanish.","answer":"gracias","accepted":["gracias","muchas gracias"]},
-            {"type":"listen","prompt":"Listen and choose the word you hear.","audio_text":"hola","options":["hola","perro","agua"],"answer":"hola"},
-            {"type":"match","prompt":"Match each Spanish word with its meaning.","pairs":[{"left":"hola","right":"hello"},{"left":"gracias","right":"thank you"},{"left":"adiós","right":"goodbye"}]}
+            {"type":"multiple_choice","prompt":"How do you say ‘hello’ in Vietnamese?","options":["xin chào","cảm ơn","tạm biệt"],"answer":"xin chào"},
+            {"type":"write","prompt":"Translate ‘thank you’ into Vietnamese.","answer":"cảm ơn"},
+            {"type":"word_bank","prompt":"Build ‘goodbye’ in Vietnamese.","words":["tạm","biệt","xin","chào"],"answer":"tạm biệt"},
+            {"type":"match","prompt":"Match each Vietnamese phrase to its meaning.","pairs":[{"left":"xin chào","right":"hello"},{"left":"cảm ơn","right":"thank you"},{"left":"tạm biệt","right":"goodbye"}]}
           ]
         },
         {
-          "id": "introductions",
-          "title": "Introduce yourself",
-          "difficulty": "Easy+",
-          "description": "Use names and simple ‘I am’ sentences.",
-          "questions": [
-            {"type":"multiple_choice","prompt":"What does ‘Me llamo Ana’ mean?","options":["My name is Ana","I like Ana","Goodbye, Ana"],"answer":"My name is Ana"},
-            {"type":"gap","prompt":"Complete the sentence: ‘I am Leo.’","sentence":"Yo ___ Leo.","answer":"soy"},
-            {"type":"word_bank","prompt":"Build ‘My name is Ana.’","words":["me","llamo","Ana","gracias"],"answer":"me llamo Ana"},
-            {"type":"write","prompt":"Translate ‘good morning’ into Spanish.","answer":"buenos días","accepted":["buenos dias","buenos días"]}
-          ]
-        }
-      ]
-    },
-    {
-      "id": "food",
-      "title": "Food & cafés",
-      "topic": "Difficulty 2 · Order familiar food and drinks with short phrases.",
-      "lessons": [
-        {
-          "id": "food-words",
-          "title": "Food words",
-          "difficulty": "Easy–medium",
-          "description": "Learn everyday food and drink vocabulary.",
-          "questions": [
-            {"type":"multiple_choice","prompt":"What does ‘agua’ mean?","options":["water","bread","milk"],"answer":"water"},
-            {"type":"word_bank","prompt":"Build ‘I want bread.’","words":["quiero","pan","agua","adiós"],"answer":"quiero pan"},
-            {"type":"gap","prompt":"Complete: ‘I drink water.’","sentence":"Yo ___ agua.","answer":"bebo"},
-            {"type":"match","prompt":"Match the food words.","pairs":[{"left":"pan","right":"bread"},{"left":"leche","right":"milk"},{"left":"manzana","right":"apple"}]}
-          ]
-        },
-        {
-          "id": "at-the-cafe",
-          "title": "At the café",
-          "difficulty": "Medium",
-          "description": "Order a drink using a polite full phrase.",
-          "questions": [
-            {"type":"multiple_choice","prompt":"Which means ‘A coffee, please’?","options":["Un café, por favor","Una casa, por favor","Buenos días"],"answer":"Un café, por favor"},
-            {"type":"write","prompt":"Translate ‘I would like water, please.’","answer":"Quisiera agua, por favor","accepted":["quisiera agua por favor","quisiera agua, por favor"]},
-            {"type":"listen","prompt":"Listen and choose the order.","audio_text":"un café por favor","options":["un café por favor","una manzana","buenas noches"],"answer":"un café por favor"},
-            {"type":"word_bank","prompt":"Build ‘The bill, please.’","words":["la","cuenta","por","favor","agua"],"answer":"la cuenta por favor"}
-          ]
-        }
-      ]
-    },
-    {
-      "id": "daily-life",
-      "title": "Everyday life",
-      "topic": "Difficulty 3 · Combine verbs, people, and details into longer sentences.",
-      "lessons": [
-        {
-          "id": "daily-routines",
-          "title": "Daily routines",
-          "difficulty": "Medium",
-          "description": "Talk about what you do each day.",
-          "questions": [
-            {"type":"gap","prompt":"Complete ‘I eat breakfast.’","sentence":"Yo ___ el desayuno.","answer":"como"},
-            {"type":"word_bank","prompt":"Build ‘I work in the city.’","words":["trabajo","en","la","ciudad","leche"],"answer":"trabajo en la ciudad"},
-            {"type":"multiple_choice","prompt":"What does ‘por la mañana’ mean?","options":["in the morning","at night","next week"],"answer":"in the morning"},
-            {"type":"write","prompt":"Translate ‘I study Spanish every day.’","answer":"Estudio español todos los días","accepted":["estudio español todos los días","estudio espanol todos los dias"]}
-          ]
-        },
-        {
-          "id": "likes-and-plans",
-          "title": "Likes & plans",
-          "difficulty": "Medium+",
-          "description": "Say what you like and make a simple plan.",
-          "questions": [
-            {"type":"multiple_choice","prompt":"What does ‘Me gusta leer’ mean?","options":["I like reading","I need a book","I am reading now"],"answer":"I like reading"},
-            {"type":"gap","prompt":"Complete ‘We are going to eat.’","sentence":"Vamos a ___. ","answer":"comer"},
-            {"type":"write","prompt":"Translate ‘I like music because it is beautiful.’","answer":"Me gusta la música porque es bonita","accepted":["me gusta la música porque es bonita","me gusta la musica porque es bonita"]},
-            {"type":"match","prompt":"Match the expressions.","pairs":[{"left":"me gusta","right":"I like"},{"left":"vamos a","right":"we are going to"},{"left":"porque","right":"because"}]}
-          ]
-        }
-      ]
-    },
-    {
-      "id": "getting-around",
-      "title": "Getting around",
-      "topic": "Difficulty 4 · Use longer questions and directions in practical situations.",
-      "lessons": [
-        {
-          "id": "directions",
-          "title": "Ask for directions",
-          "difficulty": "Challenging",
-          "description": "Ask where places are and understand directions.",
-          "questions": [
-            {"type":"multiple_choice","prompt":"How do you ask ‘Where is the station?’","options":["¿Dónde está la estación?","¿Cuánto cuesta?","Me llamo estación."],"answer":"¿Dónde está la estación?"},
-            {"type":"word_bank","prompt":"Build ‘Turn left at the street.’","words":["gira","a","la","izquierda","en","la","calle"],"answer":"gira a la izquierda en la calle"},
-            {"type":"listen","prompt":"Listen and choose the direction.","audio_text":"sigue todo recto","options":["sigue todo recto","gira a la derecha","está cerrado"],"answer":"sigue todo recto"},
-            {"type":"write","prompt":"Translate ‘The museum is near the park.’","answer":"El museo está cerca del parque","accepted":["el museo está cerca del parque","el museo esta cerca del parque"]}
-          ]
-        },
-        {
-          "id":"travel-conversation",
-          "title":"A travel conversation",
-          "difficulty":"Challenging+",
-          "description":"Put several ideas together while travelling.",
+          "id":"introductions",
+          "title":"Introduce yourself",
+          "difficulty":"Easy+",
+          "description":"Say your name and ask someone else’s.",
           "questions":[
-            {"type":"multiple_choice","prompt":"What does ‘¿Podría ayudarme, por favor?’ mean?","options":["Could you help me, please?","Can I pay tomorrow?","Where is my hotel?"],"answer":"Could you help me, please?"},
-            {"type":"gap","prompt":"Complete ‘I would like to go to the airport.’","sentence":"Quisiera ___ al aeropuerto.","answer":"ir"},
-            {"type":"write","prompt":"Translate ‘We are looking for the bus station.’","answer":"Estamos buscando la estación de autobuses","accepted":["estamos buscando la estación de autobuses","estamos buscando la estacion de autobuses"]},
-            {"type":"audio_match","prompt":"Match each spoken Spanish phrase to its meaning.","pairs":[{"left":"¿Dónde está?","right":"Where is it?","audio_text":"donde esta"},{"left":"a la derecha","right":"to the right","audio_text":"a la derecha"},{"left":"muchas gracias","right":"thank you very much","audio_text":"muchas gracias"}]}
+            {"type":"multiple_choice","prompt":"What does ‘Tôi tên là An’ mean?","options":["My name is An","I am going home","Good morning"],"answer":"My name is An"},
+            {"type":"gap","prompt":"Complete ‘My name is Linh.’","sentence":"Tôi tên ___ Linh.","answer":"là"},
+            {"type":"word_bank","prompt":"Build ‘What is your name?’","words":["Bạn","tên","là","gì","cảm ơn"],"answer":"Bạn tên là gì"},
+            {"type":"write","prompt":"Translate ‘I am An.’","answer":"Tôi là An","accepted":["Tôi là An","tôi là an"]}
+          ]
+        }
+      ]
+    },
+    {
+      "id":"food",
+      "title":"Food & cafés",
+      "topic":"Difficulty 2 · Learn common food and drink words, then make a polite order.",
+      "notes":"## At a café\n\n- `nước` — water\n- `cà phê` — coffee\n- `cơm` — rice / a meal\n- `làm ơn` — please\n\nA simple polite request is **Cho tôi ___, làm ơn** (Please give me ___).",
+      "lessons":[
+        {
+          "id":"food-words",
+          "title":"Food words",
+          "difficulty":"Easy–medium",
+          "description":"Learn useful food and drink vocabulary.",
+          "questions":[
+            {"type":"multiple_choice","prompt":"What does ‘nước’ mean in this food-and-drink context?","options":["water","bread","coffee"],"answer":"water"},
+            {"type":"word_bank","prompt":"Build ‘coffee, please.’","words":["cà","phê","làm","ơn","nước"],"answer":"cà phê làm ơn"},
+            {"type":"gap","prompt":"Complete ‘I eat rice.’","sentence":"Tôi ___ cơm.","answer":"ăn"},
+            {"type":"match","prompt":"Match each food word.","pairs":[{"left":"cà phê","right":"coffee"},{"left":"cơm","right":"rice / a meal"},{"left":"nước","right":"water"}]}
+          ]
+        },
+        {
+          "id":"ordering",
+          "title":"Order a drink",
+          "difficulty":"Medium",
+          "description":"Use a polite phrase to order in a café.",
+          "questions":[
+            {"type":"multiple_choice","prompt":"Which phrase means ‘Please give me water’ (polite request)?","options":["Cho tôi nước, làm ơn","Tôi tên là nước","Tạm biệt cà phê"],"answer":"Cho tôi nước, làm ơn"},
+            {"type":"write","prompt":"Translate ‘I would like coffee, please.’","answer":"Cho tôi cà phê, làm ơn","accepted":["Cho tôi cà phê làm ơn","Cho tôi cà phê, làm ơn"]},
+            {"type":"listen","prompt":"Listen and choose the drink you hear.","audio_text":"cà phê","options":["cà phê","nước","cơm"],"answer":"cà phê"},
+            {"type":"word_bank","prompt":"Build ‘Please give me coffee.’","words":["Cho","tôi","cà","phê","làm","ơn"],"answer":"Cho tôi cà phê làm ơn"}
+          ]
+        }
+      ]
+    },
+    {
+      "id":"getting-around",
+      "title":"Getting around",
+      "topic":"Difficulty 3 · Ask simple questions and understand useful travel phrases.",
+      "notes":"## Handy travel phrases\n\n- `ở đâu?` — where is it?\n- `ở đây` — here\n- `ở kia` — over there\n- `Tôi muốn đi…` — I want to go…\n\nVietnamese does not conjugate verbs for each person: `tôi đi` means “I go,” and `bạn đi` means “you go.”",
+      "lessons":[
+        {
+          "id":"places",
+          "title":"Places & directions",
+          "difficulty":"Medium",
+          "description":"Ask where a place is and identify common locations.",
+          "questions":[
+            {"type":"multiple_choice","prompt":"What does ‘nhà ga’ mean?","options":["station","restaurant","market"],"answer":"station"},
+            {"type":"word_bank","prompt":"Build ‘Where is the station?’","words":["Nhà","ga","ở","đâu"],"answer":"Nhà ga ở đâu"},
+            {"type":"gap","prompt":"Complete ‘I want to go to the market.’","sentence":"Tôi muốn ___ chợ.","answer":"đi"},
+            {"type":"match","prompt":"Match the place to its meaning.","pairs":[{"left":"nhà ga","right":"station"},{"left":"chợ","right":"market"},{"left":"nhà hàng","right":"restaurant"}]}
           ]
         }
       ]

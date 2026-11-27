@@ -18,8 +18,8 @@ COURSES_DIR = ROOT / "courses"
 DB_PATH = ROOT / ".igor_progress.db"
 AUDIO_EXTENSIONS = (".mp3", ".wav", ".ogg", ".m4a", ".webm")
 TEXT = {
-    "en": {"tagline":"Small steps. Strong shell.","learn":"Learn","log_in":"Log in","sign_up":"Create account","username":"Username","password":"Password","logout":"Log out","welcome":"Welcome back","choose_course":"Choose your course","lesson":"Lesson","start":"Start lesson","continue":"Continue","xp":"XP","streak":"day streak","lessons_done":"lessons completed","check":"Check answer","next":"Continue","correct":"Nice work!","incorrect":"Not quite — try again.","finish":"Lesson complete!","finish_body":"You kept moving. Every little step counts.","back":"Back to lessons","no_courses":"No courses are available yet.","audio_missing":"Audio isn't available for this question yet.","pick":"Choose an answer","write_here":"Type your translation","wordbank_hint":"Tap words to build your answer.","empty":"Choose an option","already":"That username is already taken.","bad_login":"Username or password is incorrect.","create_first":"Create an account to save your XP, streak, and lesson progress.","language":"Interface language","question_of":"Question","correct_answer":"A good answer:","no_lessons":"This course has no lessons yet.","unit":"UNIT","locked":"Complete the lessons above to unlock this one.","replay_sound":"Play sound again","correct_sound":"Correct answer sound","incorrect_sound":"Try-again sound"},
-    "es": {"tagline":"Pasos pequeños. Caparazón fuerte.","learn":"Aprender","log_in":"Iniciar sesión","sign_up":"Crear cuenta","username":"Usuario","password":"Contraseña","logout":"Cerrar sesión","welcome":"¡Qué bueno verte!","choose_course":"Elige tu curso","lesson":"Lección","start":"Empezar lección","continue":"Continuar","xp":"XP","streak":"días seguidos","lessons_done":"lecciones completadas","check":"Comprobar","next":"Continuar","correct":"¡Muy bien!","incorrect":"Casi — inténtalo otra vez.","finish":"¡Lección completada!","finish_body":"Seguiste avanzando. Cada paso cuenta.","back":"Volver a las lecciones","no_courses":"Todavía no hay cursos disponibles.","audio_missing":"El audio aún no está disponible para esta pregunta.","pick":"Elige una respuesta","write_here":"Escribe tu traducción","wordbank_hint":"Pulsa palabras para formar tu respuesta.","empty":"Elige una opción","already":"Ese usuario ya existe.","bad_login":"El usuario o la contraseña no son correctos.","create_first":"Crea una cuenta para guardar tus XP, racha y progreso.","language":"Idioma de la interfaz","question_of":"Pregunta","correct_answer":"Una respuesta válida:","no_lessons":"Este curso todavía no tiene lecciones.","unit":"UNIDAD","locked":"Completa las lecciones anteriores para desbloquear esta.","replay_sound":"Repetir sonido","correct_sound":"Sonido de respuesta correcta","incorrect_sound":"Sonido de inténtalo de nuevo"},
+    "en": {"tagline":"Small steps. Strong shell.","learn":"Learn","log_in":"Log in","sign_up":"Create account","username":"Username","password":"Password","logout":"Log out","welcome":"Welcome back","choose_course":"Choose your course","lesson":"Lesson","start":"Start lesson","continue":"Continue","xp":"XP","streak":"day streak","lessons_done":"lessons completed","check":"Check answer","next":"Continue","correct":"Nice work!","incorrect":"Not quite — try again.","finish":"Lesson complete!","finish_body":"You kept moving. Every little step counts.","back":"Back to lessons","no_courses":"No courses are available yet.","audio_missing":"Audio isn't available for this question yet.","pick":"Choose an answer","write_here":"Type your translation","wordbank_hint":"Tap words to build your answer.","empty":"Choose an option","already":"That username is already taken.","bad_login":"Username or password is incorrect.","create_first":"Create an account to save your XP, streak, and lesson progress.","language":"Interface language","question_of":"Question","correct_answer":"A good answer:","no_lessons":"This course has no lessons yet.","unit":"UNIT","locked":"Complete the lessons above to unlock this one.","notes":"📘 Unit notes"},
+    "es": {"tagline":"Pasos pequeños. Caparazón fuerte.","learn":"Aprender","log_in":"Iniciar sesión","sign_up":"Crear cuenta","username":"Usuario","password":"Contraseña","logout":"Cerrar sesión","welcome":"¡Qué bueno verte!","choose_course":"Elige tu curso","lesson":"Lección","start":"Empezar lección","continue":"Continuar","xp":"XP","streak":"días seguidos","lessons_done":"lecciones completadas","check":"Comprobar","next":"Continuar","correct":"¡Muy bien!","incorrect":"Casi — inténtalo otra vez.","finish":"¡Lección completada!","finish_body":"Seguiste avanzando. Cada paso cuenta.","back":"Volver a las lecciones","no_courses":"Todavía no hay cursos disponibles.","audio_missing":"El audio aún no está disponible para esta pregunta.","pick":"Elige una respuesta","write_here":"Escribe tu traducción","wordbank_hint":"Pulsa palabras para formar tu respuesta.","empty":"Elige una opción","already":"Ese usuario ya existe.","bad_login":"El usuario o la contraseña no son correctos.","create_first":"Crea una cuenta para guardar tus XP, racha y progreso.","language":"Idioma de la interfaz","question_of":"Pregunta","correct_answer":"Una respuesta válida:","no_lessons":"Este curso todavía no tiene lecciones.","unit":"UNIDAD","locked":"Completa las lecciones anteriores para desbloquear esta.","notes":"📘 Notas de la unidad"},
 }
 
 st.set_page_config(page_title="Igor · Language learning", page_icon="🐢", layout="centered")
@@ -35,7 +35,6 @@ html, body, [class*="css"] { font-family:'Nunito',sans-serif; }
 .igor-sub { color:#658173; font-weight:700; font-size:.88rem; margin-top:-6px; }
 .stats { padding:12px 16px; border-radius:15px; background:#edf6ef; color:#24583e; font-weight:800; }
 .question-label { color:var(--igor); font-size:.82rem; font-weight:900; letter-spacing:.08em; text-transform:uppercase; }
-.sound-replay { padding:6px 12px; border:1px solid #d5e6da; border-radius:10px; background:#f5faf6; color:#24583e; font:700 13px Nunito,sans-serif; cursor:pointer; }
 div.stButton > button[kind="primary"] { background:var(--igor); border-color:var(--igor); border-radius:13px; font-weight:900; min-height:2.8rem; }
 div.stButton > button { border-radius:12px; }
 </style>
@@ -105,7 +104,6 @@ def courses() -> list[dict[str, Any]]:
             data = json.loads(path.read_text(encoding="utf-8"))
             data["_path"] = path.parent
             data["id"] = data.get("id", path.parent.name)
-            # Older course files used a flat lessons list; keep them playable as one unit.
             if "units" not in data and isinstance(data.get("lessons"), list):
                 data["units"] = [{"id":"course-lessons", "title":data.get("title", "Course lessons"), "topic":data.get("description", ""), "lessons":data["lessons"]}]
             if isinstance(data.get("units"), list):
@@ -149,39 +147,32 @@ def audio_widget(course: dict, question: dict, t: dict) -> None:
     st.caption(t["audio_missing"])
 
 
-def feedback_sound(correct: bool, key: str, t: dict) -> None:
-    """Play a tiny synthesized sound; replay button covers browsers that block autoplay."""
+def feedback_sound(correct: bool, key: str) -> None:
+    """Autoplay a short synthesized sound after an answer; no replay control is rendered."""
     sound_id = re.sub(r"[^a-zA-Z0-9_-]", "", key)
-    label = t["correct_sound"] if correct else t["incorrect_sound"]
     frequencies = "[660,880]" if correct else "[220,165]"
     wave = "sine" if correct else "triangle"
-    html = f'''
+    st.html(f'''<div id="igor-sound-{sound_id}" aria-hidden="true"></div>
     <script>
     (() => {{
-      const button = document.getElementById("sound-{sound_id}");
-      const play = () => {{
-        try {{
-          const AudioCtx = window.AudioContext || window.webkitAudioContext;
-          const ctx = new AudioCtx();
-          const notes = {frequencies};
-          notes.forEach((hz, i) => {{
-            const osc = ctx.createOscillator();
-            const gain = ctx.createGain();
-            osc.type = "{wave}"; osc.frequency.value = hz;
-            gain.gain.setValueAtTime(0.0001, ctx.currentTime + i * 0.13);
-            gain.gain.exponentialRampToValueAtTime(0.12, ctx.currentTime + i * 0.13 + 0.02);
-            gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + i * 0.13 + 0.19);
-            osc.connect(gain); gain.connect(ctx.destination);
-            osc.start(ctx.currentTime + i * 0.13); osc.stop(ctx.currentTime + i * 0.13 + 0.2);
-          }});
-            setTimeout(() => ctx.close(), 550);
-        }} catch (e) {{ /* Sound is a non-essential enhancement. */ }}
-      }};
-      if (button) button.addEventListener("click", play);
-      play();
+      try {{
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        const ctx = new AudioCtx();
+        const notes = {frequencies};
+        notes.forEach((hz, i) => {{
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = "{wave}"; osc.frequency.value = hz;
+          gain.gain.setValueAtTime(0.0001, ctx.currentTime + i * 0.13);
+          gain.gain.exponentialRampToValueAtTime(0.12, ctx.currentTime + i * 0.13 + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + i * 0.13 + 0.19);
+          osc.connect(gain); gain.connect(ctx.destination);
+          osc.start(ctx.currentTime + i * 0.13); osc.stop(ctx.currentTime + i * 0.13 + 0.2);
+        }});
+        setTimeout(() => ctx.close(), 550);
+      }} catch (e) {{ /* Audio is an optional browser enhancement. */ }}
     }})();
-    </script>'''
-    st.html(html, unsafe_allow_javascript=True)
+    </script>''', unsafe_allow_javascript=True)
 
 
 def completed_ids(user_id: int, course_id: str) -> set[str]:
@@ -306,7 +297,7 @@ def render_question(course: dict, question: dict, number: int, total: int, t: di
         sound_key = qkey + "_correct"
         if st.session_state.get("last_sound") != sound_key:
             st.session_state.last_sound = sound_key
-            feedback_sound(True, sound_key, t)
+            feedback_sound(True, sound_key)
         if st.button(t["next"], key="next_" + qkey, type="primary", use_container_width=True):
             st.session_state.question_index += 1
             st.rerun()
@@ -315,7 +306,7 @@ def render_question(course: dict, question: dict, number: int, total: int, t: di
         sound_key = qkey + "_incorrect"
         if st.session_state.get("last_sound") != sound_key:
             st.session_state.last_sound = sound_key
-            feedback_sound(False, sound_key, t)
+            feedback_sound(False, sound_key)
         if qtype in ("write", "word_bank", "gap"):
             st.caption(f"{t['correct_answer']} {question.get('answer', '')}")
         if st.button(t["continue"], key="retry_" + qkey, use_container_width=True):
@@ -385,17 +376,19 @@ def render_app() -> None:
         st.info(t["no_lessons"])
         return
 
-    flat_lessons = [lesson for unit in units for lesson in unit.get("lessons", [])]
     previous_done = True
     lesson_count = 0
     for unit_index, unit in enumerate(units):
-        # A visible divider and generous spacing make every topic feel like a new section.
         st.markdown("<div style='height:20px'></div><hr style='border:0;border-top:2px solid #dcebe0;margin:20px 0 24px'>", unsafe_allow_html=True)
         st.markdown(f"### 🐢 {t['unit']} {unit_index + 1} · {unit.get('title', 'Unit')}")
         if unit.get("topic"):
             st.caption(unit["topic"])
-        lessons = unit.get("lessons", [])
-        for lesson in lessons:
+        notes = unit.get("notes", "")
+        if notes:
+            # Notes are authored as Markdown in the course JSON and revealed on demand.
+            with st.expander(t["notes"], expanded=False):
+                st.markdown(notes)
+        for lesson in unit.get("lessons", []):
             lesson_id = str(lesson.get("id", "lesson"))
             is_done = lesson_id in done
             can_start = previous_done
