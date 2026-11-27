@@ -48,15 +48,14 @@
           "difficulty": "Medium",
           "description": "Practise writing sentences using your first words.",
           "questions": [
-            {"type":"multiple_choice","prompt":"Which Votic word translates to ‘hi / hello’?","options":["tere","miä õõn","English"],"answer":"tere"},
-            {"type":"multiple_choice","prompt":"Which Votic phrase translates to ‘good night'","options":["tere","miä õõn","üvvä üüte"],"answer":"üvvä üüte"},
-            {"type":"word_bank","prompt":"Build the phrase for ‘good morning’. Use the word tiles in order.","words":["üvvä","õõn","tere","omnikkoa"],"answer":"üvvä omnikkoa"},
-            {"type":"match","prompt":"Match the Votic starter phrase with its meaning.","pairs":[{"left":"tere","right":"hi / hello"},{"left":"miä õõn","right":"I am"}]},
-            {"type":"multiple_choice","prompt":"Which Votic phrase translates to ‘you are'","options":["tere","siä õõd","miä õõn"],"answer":"siä õõd"},
-            {"type":"multiple_choice","prompt":"Which Votic phrase translates to ‘good afternoon'","options":["üvvä päivää","miä õõn","üvvä üüte"],"answer":"üvvä päivää"},
-            {"type":"multiple_choice","prompt":"Which Votic word translates to ‘good evening'","options":["üvvä omnikkoa","üvvä ohtõgoa","üvvä päivää"],"answer":"üvvä ohtõgoa"},
-            {"type":"match","prompt":"Match the Votic starter phrase with its meaning.","pairs":[{"left":"tere","right":"hi / hello"},{"left":"miä õõn","right":"I am"},{"left":"siä õõd","right":"you are"},{"left":"üvvä omnikkoa","right":"good morning"},{"left":"üvvä päivää","right":"good afternoon"},{"left":"üvvä ohtõgoa","right":"good evening"},{"left":"üvvä üüte","right":"good night"},{"left":"õõdko siä?","right":"are you?"}]}
-
+            {"type":"write","prompt":"Translate ‘hi, Petteri’ into Votic.","answer":"tere, Petteri","accepted":["tere, Petteri","üvvä päivää, Petteri"]},
+            {"type":"write","prompt":"Translate ‘good morning, are you Petteri?’ into Votic.","answer":"üvvä omnikkoa, õõdko siä Petteri?","accepted":["üvvä omnikkoa, õõdko siä Petteri?"]},
+            {"type":"gap","prompt":"Complete the sentence: 'Good afternoon’","sentence":"üvvä ___ .","answer":"päivää"},
+            {"type":"write","prompt":"Translate ‘good evening, I am Petteri’ into Votic.","answer":"üvvä ohtõgoa, miä õõn Petteri","accepted":["üvvä ohtõgoa, miä õõn Petteri","tere ohtõgoa, miä õõn Petteri"]},
+            {"type":"gap","prompt":"Complete the sentence: ‘Good night.’","sentence":"üvvä ___.","answer":"üüte"},
+            {"type":"write","prompt":"Translate ‘hi’ into Votic.","answer":"tere","accepted":["tere"]},
+            {"type":"write","prompt":"Translate ‘Good afternoon, are you Igor?’ into Votic.","answer":"üvvä päivää, õõdko siä Igor?","accepted":["üvvä päivää, õõdko siä Igor?"]},
+            {"type":"write","prompt":"Translate ‘Goof night, I am Igor’ into Spanish.","answer":"üvvä üüte, miä õõn Igor","accepted":["üvvä üüte, miä õõn Igor"]},
           ]
         }
       ]
