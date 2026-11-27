@@ -18,7 +18,7 @@
           "difficulty": "Easy",
           "description": "Try the Votic starter vocabulary.",
           "questions": [
-            {"type":"multiple_choice","prompt":"Which Votic word translates to ‘hi / hello’?","options":["tere","miä õõn","English"],"answer":"tere"},
+            {"type":"multiple_choice","prompt":"Which Votic word translates to ‘hi / hello’?","options":["tere","miä õõn","üvvä päivää"],"answer":"tere"},
             {"type":"multiple_choice","prompt":"Which Votic phrase translates to ‘good night’?","options":["tere","miä õõn","üvvä üüte"],"answer":"üvvä üüte"},
             {"type":"word_bank","prompt":"Build the phrase for ‘good morning’. Use the word tiles in order.","words":["üvvä","õõn","tere","omnikkoa"],"answer":"üvvä omnikkoa"},
             {"type":"match","prompt":"Match the Votic starter phrase with its meaning.","pairs":[{"left":"tere","right":"hi / hello"},{"left":"miä õõn","right":"I am"}]},
