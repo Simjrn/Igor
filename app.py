@@ -11,6 +11,7 @@ from datetime import date, datetime, timedelta
 from pathlib import Path
 from typing import Any
 
+import extra_streamlit_components as stx
 import streamlit as st
 
 ROOT = Path(__file__).parent
@@ -18,9 +19,12 @@ COURSES_DIR = ROOT / "courses"
 DB_PATH = ROOT / ".igor_progress.db"
 AUDIO_EXTENSIONS = (".mp3", ".wav", ".ogg", ".m4a", ".webm")
 COURSE_LOAD_ERRORS: list[str] = []
+SESSION_COOKIE = "igor_remember_session"
+SESSION_DAYS = 30
+
 TEXT = {
-    "en": {"tagline":"Small steps. Strong shell.","learn":"Learn","log_in":"Log in","sign_up":"Create account","username":"Username","password":"Password","logout":"Log out","welcome":"Welcome back","choose_course":"Choose your course","lesson":"Lesson","start":"Start lesson","continue":"Continue","xp":"XP","streak":"day streak","lessons_done":"lessons completed","check":"Check answer","next":"Continue","correct":"Nice work!","incorrect":"Not quite — try again.","finish":"Lesson complete!","finish_body":"You kept moving. Every little step counts.","back":"Back to lessons","no_courses":"No playable courses found. Add a course JSON file under the courses folder.","audio_missing":"Audio isn't available for this question yet.","pick":"Choose an answer","write_here":"Type your translation","wordbank_hint":"Tap words to build your answer.","empty":"Choose an option","already":"That username is already taken.","bad_login":"Username or password is incorrect.","create_first":"Create an account to save your XP, streak, and lesson progress.","language":"Interface language","question_of":"Question","correct_answer":"A good answer:","no_lessons":"This course has no lessons yet.","unit":"UNIT","locked":"Complete the lessons above to unlock this one.","notes":"📘 Unit notes","course_errors":"Some course files could not be loaded"},
-    "es": {"tagline":"Pasos pequeños. Caparazón fuerte.","learn":"Aprender","log_in":"Iniciar sesión","sign_up":"Crear cuenta","username":"Usuario","password":"Contraseña","logout":"Cerrar sesión","welcome":"¡Qué bueno verte!","choose_course":"Elige tu curso","lesson":"Lección","start":"Empezar lección","continue":"Continuar","xp":"XP","streak":"días seguidos","lessons_done":"lecciones completadas","check":"Comprobar","next":"Continuar","correct":"¡Muy bien!","incorrect":"Casi — inténtalo de nuevo.","finish":"¡Lección completada!","finish_body":"Seguiste avanzando. Cada paso cuenta.","back":"Volver a las lecciones","no_courses":"No se encontraron cursos jugables. Añade un archivo JSON en la carpeta courses.","audio_missing":"El audio aún no está disponible para esta pregunta.","pick":"Elige una respuesta","write_here":"Escribe tu traducción","wordbank_hint":"Pulsa palabras para formar tu respuesta.","empty":"Elige una opción","already":"Ese usuario ya existe.","bad_login":"El usuario o la contraseña no son correctos.","create_first":"Crea una cuenta para guardar tus XP, racha y progreso.","language":"Idioma de la interfaz","question_of":"Pregunta","correct_answer":"Una respuesta válida:","no_lessons":"Este curso todavía no tiene lecciones.","unit":"UNIDAD","locked":"Completa las lecciones anteriores para desbloquear esta.","notes":"📘 Notas de la unidad","course_errors":"No se pudieron cargar algunos archivos de curso"},
+    "en": {"tagline":"Small steps. Strong shell.","learn":"Learn","log_in":"Log in","sign_up":"Create account","username":"Username","password":"Password","logout":"Log out","welcome":"Welcome back","choose_course":"Choose your course","lesson":"Lesson","start":"Start lesson","continue":"Continue","xp":"XP","streak":"day streak","lessons_done":"lessons completed","check":"Check answer","next":"Continue","correct":"Nice work!","incorrect":"Not quite — try again.","finish":"Lesson complete!","finish_body":"You kept moving. Every little step counts.","back":"Back to lessons","no_courses":"No playable courses found. Add a course JSON file under the courses folder.","audio_missing":"Audio isn't available for this question yet.","pick":"Choose an answer","write_here":"Type your translation","wordbank_hint":"Tap words to build your answer.","empty":"Choose an option","already":"That username is already taken.","bad_login":"Username or password is incorrect.","create_first":"Create an account to save your XP, streak, and lesson progress.","language":"Interface language","question_of":"Question","correct_answer":"A good answer:","no_lessons":"This course has no lessons yet.","unit":"UNIT","locked":"Complete the lessons above to unlock this one.","notes":"📘 Unit notes","course_errors":"Some course files could not be loaded","stay_signed_in":"Stay signed in on this device for 30 days"},
+    "es": {"tagline":"Pasos pequeños. Caparazón fuerte.","learn":"Aprender","log_in":"Iniciar sesión","sign_up":"Crear cuenta","username":"Usuario","password":"Contraseña","logout":"Cerrar sesión","welcome":"¡Qué bueno verte!","choose_course":"Elige tu curso","lesson":"Lección","start":"Empezar lección","continue":"Continuar","xp":"XP","streak":"días seguidos","lessons_done":"lecciones completadas","check":"Comprobar","next":"Continuar","correct":"¡Muy bien!","incorrect":"Casi — inténtalo de nuevo.","finish":"¡Lección completada!","finish_body":"Seguiste avanzando. Cada paso cuenta.","back":"Volver a las lecciones","no_courses":"No se encontraron cursos jugables. Añade un archivo JSON en la carpeta courses.","audio_missing":"El audio aún no está disponible para esta pregunta.","pick":"Elige una respuesta","write_here":"Escribe tu traducción","wordbank_hint":"Pulsa palabras para formar tu respuesta.","empty":"Elige una opción","already":"Ese usuario ya existe.","bad_login":"El usuario o la contraseña no son correctos.","create_first":"Crea una cuenta para guardar tus XP, racha y progreso.","language":"Idioma de la interfaz","question_of":"Pregunta","correct_answer":"Una respuesta válida:","no_lessons":"Este curso todavía no tiene lecciones.","unit":"UNIDAD","locked":"Completa las lecciones anteriores para desbloquear esta.","notes":"📘 Notas de la unidad","course_errors":"No se pudieron cargar algunos archivos de curso","stay_signed_in":"Mantener la sesión iniciada en este dispositivo durante 30 días"},
 }
 
 st.set_page_config(page_title="Igor · Language learning", page_icon="🐢", layout="centered")
@@ -63,6 +67,12 @@ def init_db() -> None:
             course_id TEXT NOT NULL, lesson_id TEXT NOT NULL, completed_at TEXT NOT NULL,
             PRIMARY KEY(user_id, course_id, lesson_id)
         );
+        CREATE TABLE IF NOT EXISTS auth_sessions (
+            token_hash TEXT PRIMARY KEY,
+            user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+            expires_at TEXT NOT NULL,
+            created_at TEXT NOT NULL
+        );
         """)
 
 
@@ -92,6 +102,39 @@ def authenticate(username: str, password: str):
     return None
 
 
+def issue_remember_token(user_id: int) -> str:
+    token = secrets.token_urlsafe(32)
+    token_hash = hashlib.sha256(token.encode()).hexdigest()
+    now = datetime.utcnow()
+    with db() as conn:
+        conn.execute("DELETE FROM auth_sessions WHERE expires_at < ?", (now.isoformat(),))
+        conn.execute("INSERT INTO auth_sessions(token_hash,user_id,expires_at,created_at) VALUES(?,?,?,?)",
+                     (token_hash, user_id, (now + timedelta(days=SESSION_DAYS)).isoformat(), now.isoformat()))
+    return token
+
+
+def user_from_remember_token(token: str | None):
+    if not token or len(token) > 200:
+        return None
+    token_hash = hashlib.sha256(token.encode()).hexdigest()
+    now = datetime.utcnow().isoformat()
+    with db() as conn:
+        row = conn.execute("""
+            SELECT users.* FROM auth_sessions
+            JOIN users ON users.id=auth_sessions.user_id
+            WHERE auth_sessions.token_hash=? AND auth_sessions.expires_at>?
+        """, (token_hash, now)).fetchone()
+    return dict(row) if row else None
+
+
+def revoke_remember_token(token: str | None) -> None:
+    if not token:
+        return
+    token_hash = hashlib.sha256(token.encode()).hexdigest()
+    with db() as conn:
+        conn.execute("DELETE FROM auth_sessions WHERE token_hash=?", (token_hash,))
+
+
 def get_user(user_id: int):
     with db() as conn:
         row = conn.execute("SELECT * FROM users WHERE id=?", (user_id,)).fetchone()
@@ -99,13 +142,11 @@ def get_user(user_id: int):
 
 
 def courses() -> list[dict[str, Any]]:
-    """Discover valid course JSON files recursively and report malformed files."""
     found: list[dict[str, Any]] = []
     COURSE_LOAD_ERRORS.clear()
     if not COURSES_DIR.is_dir():
         COURSE_LOAD_ERRORS.append(f"Missing folder: {COURSES_DIR}")
         return found
-
     for path in sorted(COURSES_DIR.rglob("course.json")):
         try:
             data = json.loads(path.read_text(encoding="utf-8-sig"))
@@ -119,10 +160,8 @@ def courses() -> list[dict[str, Any]]:
                     raise ValueError("expected a 'units' or 'lessons' list")
                 data["units"] = [{"id":"course-lessons", "title":data.get("title", path.parent.name), "topic":data.get("description", ""), "lessons":lessons}]
             for i, unit in enumerate(data["units"]):
-                if not isinstance(unit, dict):
-                    raise ValueError(f"unit {i + 1} must be an object")
-                if not isinstance(unit.get("lessons", []), list):
-                    raise ValueError(f"lessons in unit {i + 1} must be a list")
+                if not isinstance(unit, dict) or not isinstance(unit.get("lessons", []), list):
+                    raise ValueError(f"invalid unit/lessons structure in unit {i + 1}")
             found.append(data)
         except (OSError, UnicodeError, json.JSONDecodeError, ValueError) as exc:
             COURSE_LOAD_ERRORS.append(f"{path.relative_to(COURSES_DIR)}: {exc}")
@@ -150,6 +189,14 @@ def audio_path(course: dict, question: dict) -> Path | None:
         item = folder / Path(candidate).name
         if item.is_file() and item.suffix.lower() in AUDIO_EXTENSIONS:
             return item
+    # Unicode can have different composed/decomposed forms on some filesystems.
+    normalized_candidates = {unicodedata.normalize("NFC", Path(c).name).casefold() for c in candidates}
+    try:
+        for item in folder.iterdir():
+            if item.is_file() and unicodedata.normalize("NFC", item.name).casefold() in normalized_candidates:
+                return item
+    except OSError:
+        pass
     return None
 
 
@@ -208,7 +255,7 @@ def header(t: dict) -> None:
     st.write("")
 
 
-def render_auth() -> None:
+def render_auth(cookie_manager) -> None:
     lang = st.selectbox("Interface language / Idioma de la interfaz", ["English", "Español"])
     ui = "es" if lang == "Español" else "en"
     t = TEXT[ui]
@@ -219,6 +266,7 @@ def render_auth() -> None:
     with st.form("auth_form"):
         username = st.text_input(t["username"], max_chars=24)
         password = st.text_input(t["password"], type="password")
+        stay_signed_in = st.checkbox(t["stay_signed_in"], value=True) if mode == t["log_in"] else False
         submitted = st.form_submit_button(t["continue"], type="primary", use_container_width=True)
     if submitted:
         if mode == t["sign_up"]:
@@ -235,6 +283,9 @@ def render_auth() -> None:
             user = authenticate(username, password)
             if user:
                 st.session_state.user = user
+                if stay_signed_in:
+                    token = issue_remember_token(user["id"])
+                    cookie_manager.set(SESSION_COOKIE, token, expires_at=datetime.utcnow() + timedelta(days=SESSION_DAYS))
                 st.rerun()
             else:
                 st.error(t["bad_login"])
@@ -249,7 +300,6 @@ def render_question(course: dict, question: dict, number: int, total: int, t: di
     checked_key = qkey + "_checked"
     if checked_key not in st.session_state:
         st.session_state[checked_key] = None
-
     with st.form("question_form_" + qkey):
         value: Any = None
         if qtype in ("multiple_choice", "listen"):
@@ -276,7 +326,6 @@ def render_question(course: dict, question: dict, number: int, total: int, t: di
         else:
             st.error(f"Unsupported question type: {qtype}")
         submitted = st.form_submit_button(t["check"], type="primary", use_container_width=True)
-
     if submitted:
         if qtype in ("multiple_choice", "listen", "write", "word_bank", "gap"):
             accepted = question.get("accepted", [question.get("answer", "")])
@@ -293,7 +342,6 @@ def render_question(course: dict, question: dict, number: int, total: int, t: di
             award_xp(user_id)
             st.session_state[qkey + "_awarded"] = True
         st.rerun()
-
     result = st.session_state.get(checked_key)
     if result is True:
         st.success(t["correct"] + "  +5 XP")
@@ -320,7 +368,7 @@ def render_question(course: dict, question: dict, number: int, total: int, t: di
             st.rerun()
 
 
-def render_app() -> None:
+def render_app(cookie_manager) -> None:
     user = get_user(st.session_state.user["id"])
     if not user:
         st.session_state.pop("user", None)
@@ -337,6 +385,9 @@ def render_app() -> None:
                 conn.execute("UPDATE users SET ui_language=? WHERE id=?", (new_ui, user["id"]))
             st.rerun()
         if st.button(t["logout"], use_container_width=True):
+            token = cookie_manager.get(SESSION_COOKIE)
+            revoke_remember_token(token)
+            cookie_manager.delete(SESSION_COOKIE)
             st.session_state.clear()
             st.rerun()
 
@@ -345,7 +396,6 @@ def render_app() -> None:
         with st.expander(t["course_errors"]):
             for error in COURSE_LOAD_ERRORS:
                 st.warning(error)
-
     if "active_lesson" in st.session_state:
         active = st.session_state.active_lesson
         course = next((item for item in all_courses if item["id"] == active["course_id"]), None)
@@ -374,7 +424,6 @@ def render_app() -> None:
     if not all_courses:
         st.info(t["no_courses"])
         return
-
     labels = [f"{item.get('title', item['id'])} · {item.get('from', '?').upper()} → {item.get('to', '?').upper()}" for item in all_courses]
     course = all_courses[st.selectbox(t["choose_course"], range(len(all_courses)), format_func=lambda i: labels[i])]
     st.caption(course.get("description", ""))
@@ -383,7 +432,6 @@ def render_app() -> None:
     if not units:
         st.info(t["no_lessons"])
         return
-
     previous_done = True
     lesson_count = 0
     for unit_index, unit in enumerate(units):
@@ -391,10 +439,9 @@ def render_app() -> None:
         st.markdown(f"### 🐢 {t['unit']} {unit_index + 1} · {unit.get('title', 'Unit')}")
         if unit.get("topic"):
             st.caption(unit["topic"])
-        notes = unit.get("notes", "")
-        if notes:
+        if unit.get("notes"):
             with st.expander(t["notes"], expanded=False):
-                st.markdown(notes)
+                st.markdown(unit["notes"])
         for lesson in unit.get("lessons", []):
             lesson_id = str(lesson.get("id", "lesson"))
             is_done = lesson_id in done
@@ -422,7 +469,12 @@ def render_app() -> None:
 
 
 init_db()
+cookie_manager = stx.CookieManager(key="igor_cookie_manager")
 if "user" not in st.session_state:
-    render_auth()
+    remembered_user = user_from_remember_token(cookie_manager.get(SESSION_COOKIE))
+    if remembered_user:
+        st.session_state.user = remembered_user
+        st.rerun()
+    render_auth(cookie_manager)
 else:
-    render_app()
+    render_app(cookie_manager)
