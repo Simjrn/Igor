@@ -1,0 +1,24 @@
+{
+  "id": "es-en",
+  "title": "Spanish for English speakers",
+  "from": "en",
+  "to": "es",
+  "ui_language": "en",
+  "description": "A short beginner lesson with examples of all seven question types.",
+  "lessons": [
+    {
+      "id": "hola",
+      "title": "Hola! First words",
+      "description": "Greetings, simple words, and a tiny sentence.",
+      "questions": [
+        {"type":"multiple_choice","prompt":"How do you say ‘hello’ in Spanish?","options":["hola","adiós","gracias"],"answer":"hola"},
+        {"type":"write","prompt":"Translate ‘thank you’ into Spanish.","answer":"gracias","accepted":["gracias","muchas gracias"]},
+        {"type":"word_bank","prompt":"Build ‘good morning’ in Spanish.","words":["buenos","días","gracias","hola"],"answer":"buenos días"},
+        {"type":"listen","prompt":"Listen and choose the word you hear.","audio_text":"hola","options":["hola","perro","agua"],"answer":"hola"},
+        {"type":"gap","prompt":"Complete the Spanish sentence.","sentence":"Yo ___ Igor. (I am Igor.)","answer":"soy"},
+        {"type":"match","prompt":"Match each Spanish word with its English meaning.","pairs":[{"left":"gato","right":"cat"},{"left":"perro","right":"dog"},{"left":"agua","right":"water"}]},
+        {"type":"audio_match","prompt":"Listen and match the Spanish word to its English meaning.","pairs":[{"left":"hola","right":"hello","audio_text":"hola"},{"left":"gracias","right":"thank you","audio_text":"gracias"},{"left":"adiós","right":"goodbye","audio_text":"adiós"}]}
+      ]
+    }
+  ]
+}
