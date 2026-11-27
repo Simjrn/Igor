@@ -155,7 +155,7 @@ def feedback_sound(correct: bool, key: str, t: dict) -> None:
     label = t["correct_sound"] if correct else t["incorrect_sound"]
     frequencies = "[660,880]" if correct else "[220,165]"
     wave = "sine" if correct else "triangle"
-    html = f'''<button class="sound-replay" id="sound-{sound_id}" aria-label="{label}">🔊 {t["replay_sound"]}</button>
+    html = f'''
     <script>
     (() => {{
       const button = document.getElementById("sound-{sound_id}");
