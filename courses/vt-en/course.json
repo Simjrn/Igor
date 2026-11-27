@@ -1,1 +1,136 @@
 
+{
+  "id": "es-en",
+  "title": "Spanish for English speakers",
+  "from": "en",
+  "to": "es",
+  "ui_language": "en",
+  "description": "Learn Spanish step by step. Topics introduce useful words first, then build toward longer, more challenging phrases.",
+  "units": [
+    {
+      "id": "greetings",
+      "title": "Greetings & first words",
+      "topic": "Difficulty 1 · Start with short greetings and essential words.",
+      "notes": "Hola mean 'hello'",
+      "lessons": [
+        {
+          "id": "hello",
+          "title": "Say hello",
+          "difficulty": "Easy",
+          "description": "Greetings and polite words.",
+          "questions": [
+            {"type":"multiple_choice","prompt":"How do you say ‘hello’ in Spanish?","options":["hola","adiós","gracias"],"answer":"hola"},
+            {"type":"write","prompt":"Translate ‘thank you’ into Spanish.","answer":"gracias","accepted":["gracias","muchas gracias"]},
+            {"type":"listen","prompt":"Listen and choose the word you hear.","audio_text":"hola","options":["hola","perro","agua"],"answer":"hola"},
+            {"type":"match","prompt":"Match each Spanish word with its meaning.","pairs":[{"left":"hola","right":"hello"},{"left":"gracias","right":"thank you"},{"left":"adiós","right":"goodbye"}]}
+          ]
+        },
+        {
+          "id": "introductions",
+          "title": "Introduce yourself",
+          "difficulty": "Easy+",
+          "description": "Use names and simple ‘I am’ sentences.",
+          "questions": [
+            {"type":"multiple_choice","prompt":"What does ‘Me llamo Ana’ mean?","options":["My name is Ana","I like Ana","Goodbye, Ana"],"answer":"My name is Ana"},
+            {"type":"gap","prompt":"Complete the sentence: ‘I am Leo.’","sentence":"Yo ___ Leo.","answer":"soy"},
+            {"type":"word_bank","prompt":"Build ‘My name is Ana.’","words":["me","llamo","Ana","gracias"],"answer":"me llamo Ana"},
+            {"type":"write","prompt":"Translate ‘good morning’ into Spanish.","answer":"buenos días","accepted":["buenos dias","buenos días"]}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "food",
+      "title": "Food & cafés",
+      "topic": "Difficulty 2 · Order familiar food and drinks with short phrases.",
+      "lessons": [
+        {
+          "id": "food-words",
+          "title": "Food words",
+          "difficulty": "Easy–medium",
+          "description": "Learn everyday food and drink vocabulary.",
+          "questions": [
+            {"type":"multiple_choice","prompt":"What does ‘agua’ mean?","options":["water","bread","milk"],"answer":"water"},
+            {"type":"word_bank","prompt":"Build ‘I want bread.’","words":["quiero","pan","agua","adiós"],"answer":"quiero pan"},
+            {"type":"gap","prompt":"Complete: ‘I drink water.’","sentence":"Yo ___ agua.","answer":"bebo"},
+            {"type":"match","prompt":"Match the food words.","pairs":[{"left":"pan","right":"bread"},{"left":"leche","right":"milk"},{"left":"manzana","right":"apple"}]}
+          ]
+        },
+        {
+          "id": "at-the-cafe",
+          "title": "At the café",
+          "difficulty": "Medium",
+          "description": "Order a drink using a polite full phrase.",
+          "questions": [
+            {"type":"multiple_choice","prompt":"Which means ‘A coffee, please’?","options":["Un café, por favor","Una casa, por favor","Buenos días"],"answer":"Un café, por favor"},
+            {"type":"write","prompt":"Translate ‘I would like water, please.’","answer":"Quisiera agua, por favor","accepted":["quisiera agua por favor","quisiera agua, por favor"]},
+            {"type":"listen","prompt":"Listen and choose the order.","audio_text":"un café por favor","options":["un café por favor","una manzana","buenas noches"],"answer":"un café por favor"},
+            {"type":"word_bank","prompt":"Build ‘The bill, please.’","words":["la","cuenta","por","favor","agua"],"answer":"la cuenta por favor"}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "daily-life",
+      "title": "Everyday life",
+      "topic": "Difficulty 3 · Combine verbs, people, and details into longer sentences.",
+      "lessons": [
+        {
+          "id": "daily-routines",
+          "title": "Daily routines",
+          "difficulty": "Medium",
+          "description": "Talk about what you do each day.",
+          "questions": [
+            {"type":"gap","prompt":"Complete ‘I eat breakfast.’","sentence":"Yo ___ el desayuno.","answer":"como"},
+            {"type":"word_bank","prompt":"Build ‘I work in the city.’","words":["trabajo","en","la","ciudad","leche"],"answer":"trabajo en la ciudad"},
+            {"type":"multiple_choice","prompt":"What does ‘por la mañana’ mean?","options":["in the morning","at night","next week"],"answer":"in the morning"},
+            {"type":"write","prompt":"Translate ‘I study Spanish every day.’","answer":"Estudio español todos los días","accepted":["estudio español todos los días","estudio espanol todos los dias"]}
+          ]
+        },
+        {
+          "id": "likes-and-plans",
+          "title": "Likes & plans",
+          "difficulty": "Medium+",
+          "description": "Say what you like and make a simple plan.",
+          "questions": [
+            {"type":"multiple_choice","prompt":"What does ‘Me gusta leer’ mean?","options":["I like reading","I need a book","I am reading now"],"answer":"I like reading"},
+            {"type":"gap","prompt":"Complete ‘We are going to eat.’","sentence":"Vamos a ___. ","answer":"comer"},
+            {"type":"write","prompt":"Translate ‘I like music because it is beautiful.’","answer":"Me gusta la música porque es bonita","accepted":["me gusta la música porque es bonita","me gusta la musica porque es bonita"]},
+            {"type":"match","prompt":"Match the expressions.","pairs":[{"left":"me gusta","right":"I like"},{"left":"vamos a","right":"we are going to"},{"left":"porque","right":"because"}]}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "getting-around",
+      "title": "Getting around",
+      "topic": "Difficulty 4 · Use longer questions and directions in practical situations.",
+      "lessons": [
+        {
+          "id": "directions",
+          "title": "Ask for directions",
+          "difficulty": "Challenging",
+          "description": "Ask where places are and understand directions.",
+          "questions": [
+            {"type":"multiple_choice","prompt":"How do you ask ‘Where is the station?’","options":["¿Dónde está la estación?","¿Cuánto cuesta?","Me llamo estación."],"answer":"¿Dónde está la estación?"},
+            {"type":"word_bank","prompt":"Build ‘Turn left at the street.’","words":["gira","a","la","izquierda","en","la","calle"],"answer":"gira a la izquierda en la calle"},
+            {"type":"listen","prompt":"Listen and choose the direction.","audio_text":"sigue todo recto","options":["sigue todo recto","gira a la derecha","está cerrado"],"answer":"sigue todo recto"},
+            {"type":"write","prompt":"Translate ‘The museum is near the park.’","answer":"El museo está cerca del parque","accepted":["el museo está cerca del parque","el museo esta cerca del parque"]}
+          ]
+        },
+        {
+          "id":"travel-conversation",
+          "title":"A travel conversation",
+          "difficulty":"Challenging+",
+          "description":"Put several ideas together while travelling.",
+          "questions":[
+            {"type":"multiple_choice","prompt":"What does ‘¿Podría ayudarme, por favor?’ mean?","options":["Could you help me, please?","Can I pay tomorrow?","Where is my hotel?"],"answer":"Could you help me, please?"},
+            {"type":"gap","prompt":"Complete ‘I would like to go to the airport.’","sentence":"Quisiera ___ al aeropuerto.","answer":"ir"},
+            {"type":"write","prompt":"Translate ‘We are looking for the bus station.’","answer":"Estamos buscando la estación de autobuses","accepted":["estamos buscando la estación de autobuses","estamos buscando la estacion de autobuses"]},
+            {"type":"audio_match","prompt":"Match each spoken Spanish phrase to its meaning.","pairs":[{"left":"¿Dónde está?","right":"Where is it?","audio_text":"donde esta"},{"left":"a la derecha","right":"to the right","audio_text":"a la derecha"},{"left":"muchas gracias","right":"thank you very much","audio_text":"muchas gracias"}]}
+          ]
+        }
+      ]
+    }
+  ]
+}
