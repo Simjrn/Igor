@@ -10,7 +10,7 @@
       "id": "greetings",
       "title": "Greetings & first words",
       "topic": "Difficulty 1 · Begin with the starter words included in this course.",
-      "notes": "## Votic basics\n\nVotic uses the Latin alphabet with additional **accents**. \n\n ## Vocabulary \n\n| Votic | English |\n| --- | --- |\n| tere | hi |\n| miä õõn | I am |\n| siä õõd | you are | \n | -ko | questions marker | \n | üvva omnikkoa | good morning | \n | üvva päivää | good afternoon | \n | üvva ohtõgoa | good night | \n | üvva üüte | \n\n\n ## Verb conjugation \nAs you can see from the words for _I am_, and _you are_, we use the stem **õõ** to mean to be. The infinitive (simplest form) of the verb is actually **õlla**, however verb stems often differ greatly from their infinitive in Votic. You might also have noticed, that the endings attached onto **õõ-** change depending on who is doing the action. For _miä_(**I**), this is _-n_, and for _siä_(**you**), this is _-d_. \n\n\n ## Asking questions  \n To ask yes/no questions in Votic, attach the ending _-ko_ onto the verb. For example _siä õõd_ -> _õõdko siä?_",
+      "notes": "## Votic basics\n\nVotic uses the Latin alphabet with additional **accents**. \n\n ## Vocabulary \n\n| Votic | English |\n| --- | --- |\n| tere | hi |\n| miä õõn | I am |\n| siä õõd | you are | \n | -ko | questions marker | \n | üvvä omnikkoa | good morning | \n | üvvä päivää | good afternoon | \n | üvvä ohtõgoa | good evening | \n | üvva üüte | good night | \n\n\n ## Verb conjugation \nAs you can see from the words for _I am_, and _you are_, we use the stem **õõ** to mean to be. The infinitive (simplest form) of the verb is actually **õlla**, however verb stems often differ greatly from their infinitive in Votic. You might also have noticed, that the endings attached onto **õõ-** change depending on who is doing the action. For _miä_(**I**), this is _-n_, and for _siä_(**you**), this is _-d_. \n\n\n ## Asking questions  \n To ask yes/no questions in Votic, attach the ending _-ko_ onto the verb. For example _siä õõd_ -> _õõdko siä?_",
       "lessons": [
         {
           "id": "hello",
@@ -18,9 +18,9 @@
           "difficulty": "Easy",
           "description": "Try the Votic starter vocabulary.",
           "questions": [
-            {"type":"multiple_choice","prompt":"Which Votic word is listed as ‘hi / hello’ in the notes?","options":["tere","miä õõn","English"],"answer":"tere"},
-            {"type":"write","prompt":"Type the Votic phrase listed as ‘I am’.","answer":"miä õõn"},
-            {"type":"word_bank","prompt":"Build the phrase listed as ‘I am’. Use the word tiles in order.","words":["miä","õõn","tere"],"answer":"miä õõn"},
+            {"type":"multiple_choice","prompt":"Which Votic word translates to ‘hi / hello’?","options":["tere","miä õõn","English"],"answer":"tere"},
+            {"type":"multiple_choice","prompt":"Which Votic word translates to ‘good night'","options":["tere","miä õõn","üvvä üüte"],"answer":"üvvä üüte"},
+            {"type":"word_bank","prompt":"Build the phrase for ‘good morning’. Use the word tiles in order.","words":["üvvä","õõn","tere","üvvä omnikkoa"],"answer":"üvvä omnikkoa"},
             {"type":"match","prompt":"Match the Votic starter phrase with its meaning.","pairs":[{"left":"tere","right":"hi / hello"},{"left":"miä õõn","right":"I am"}]}
           ]
         }
