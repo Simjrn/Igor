@@ -10,6 +10,7 @@
       "id": "greetings",
       "title": "Greetings & first words",
       "topic": "Difficulty 1 · Start with short greetings and essential words.",
+      "notes": "Hola mean 'hello'",
       "lessons": [
         {
           "id": "hello",
