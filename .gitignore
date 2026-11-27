@@ -1,0 +1,6 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.igor_progress.db
+.streamlit/secrets.toml
