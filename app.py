@@ -99,7 +99,7 @@ def get_user(user_id: int):
 
 
 def courses() -> list[dict[str, Any]]:
-    """Discover valid course.json files recursively, independent of course folder/name/language."""
+    """Discover valid course JSON files recursively and report malformed files."""
     found: list[dict[str, Any]] = []
     COURSE_LOAD_ERRORS.clear()
     if not COURSES_DIR.is_dir():
@@ -112,22 +112,19 @@ def courses() -> list[dict[str, Any]]:
             if not isinstance(data, dict):
                 raise ValueError("top level must be a JSON object")
             data["_path"] = path.parent
-            # Folder name is a safe fallback; the id in a course file is optional.
             data["id"] = str(data.get("id") or path.parent.name)
             if not isinstance(data.get("units"), list):
                 lessons = data.get("lessons", [])
-                if isinstance(lessons, list):
-                    data["units"] = [{"id":"course-lessons", "title":data.get("title", path.parent.name), "topic":data.get("description", ""), "lessons":lessons}]
-                else:
+                if not isinstance(lessons, list):
                     raise ValueError("expected a 'units' or 'lessons' list")
-            # Accept a mixed course where lessons are stored at the root and in units.
+                data["units"] = [{"id":"course-lessons", "title":data.get("title", path.parent.name), "topic":data.get("description", ""), "lessons":lessons}]
             for i, unit in enumerate(data["units"]):
                 if not isinstance(unit, dict):
                     raise ValueError(f"unit {i + 1} must be an object")
                 if not isinstance(unit.get("lessons", []), list):
                     raise ValueError(f"lessons in unit {i + 1} must be a list")
             found.append(data)
-        except (OSError, json.JSONDecodeError, ValueError) as exc:
+        except (OSError, UnicodeError, json.JSONDecodeError, ValueError) as exc:
             COURSE_LOAD_ERRORS.append(f"{path.relative_to(COURSES_DIR)}: {exc}")
     return found
 
@@ -378,8 +375,6 @@ def render_app() -> None:
         st.info(t["no_courses"])
         return
 
-    # Show every course regardless of the account's interface language. The course
-    # language is descriptive metadata, not a visibility filter.
     labels = [f"{item.get('title', item['id'])} · {item.get('from', '?').upper()} → {item.get('to', '?').upper()}" for item in all_courses]
     course = all_courses[st.selectbox(t["choose_course"], range(len(all_courses)), format_func=lambda i: labels[i])]
     st.caption(course.get("description", ""))
